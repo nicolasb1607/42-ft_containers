@@ -22,7 +22,7 @@ namespace	ft {
 	{
 
 		protected :
-			Iterator _current;
+			Iterator _current; // Constructor provided by the compiler, called implicitly-declared constructors and operators (see iterators tag)
 		
 		public :
 			typedef Iterator												iterator_type;
@@ -30,32 +30,37 @@ namespace	ft {
 			typedef typename ft::iterator_traits<Iterator>::reference		reference;
 			typedef typename ft::iterator_traits<Iterator>::pointer			pointer;
 
-			reverse_iterator();
+			reverse_iterator() : _current() {};
 			explicit reverse_iterator(Iterator x);
 			template <typename U> reverse_iterator(const reverse_iterator<U>& u);
 
 			Iterator	base() const; // Explicit
-			reference	operator*() const;
-			pointer		operator->() const; 
+			reference	operator*() const { return *_current; }
+			pointer		operator->() const { return _current; }
 
-			reverse_iterator&	operator++();
-			reverse_iterator	operator++(int);
-			reverse_iterator&	operator--();
-			reverse_iterator	operator--(int);
-			reverse_iterator	operator+(difference_type n) const;
-			reverse_iterator& 	operator+=(difference_type n);
-			reverse_iterator	operator-(difference_type n) const;
-			reverse_iterator&	operator-=(difference_type n) const;
+			// Prefix increment
+			reverse_iterator&	operator++() { _current++; return *this; }
+			// Postfix increment
+			reverse_iterator	operator++(int) { Iterator tmp = *this; ++(*this); return tmp; }
+			// Prefix decrement
+			reverse_iterator&	operator--() { _current--; return *this; }
+			// Postfix decrement
+			reverse_iterator	operator--(int) {Iterator tmp = *this; --(*this); return tmp; }
+			reverse_iterator	operator+(difference_type n) const
+			reverse_iterator& 	operator+=(difference_type n)
+			reverse_iterator	operator-(difference_type n) const
+			reverse_iterator&	operator-=(difference_type n) const
 			
-			reference			operator[](difference_type n) const;
+			reference			operator[](difference_type n) const
 
+
+			friend bool operator==(const Iterator&, const Iterator&);
 	};
-
-	template <typename Iterator>
-	inline reverse_iterator<Iterator>::reverse_iterator()
+	
+	template<typename Iterator>	bool operator==(const Iterator& a, const Iterator& b)
 	{
-	}
 
+	}
 };
 
 #endif
