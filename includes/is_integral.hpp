@@ -2,14 +2,14 @@
 #define IS_INTEGRAL_HPP
 
 
-namespace ft {
-
+namespace ft 
+{
 	template <class T, T v>
 	struct integral_constant {
 		static const T value = v;
 		typedef T value_type;
 		typedef integral_constant<T, v> type;
-		const operator T() const noexcept  { return v; }  // noexcept if for compilation-time to not throw error
+		const operator T() const noexcept  { return v; }  // noexcept if for compilation-time to not throw errors
 	};
 
 	typedef ft::integral_constant<bool, true> true_type;
@@ -56,6 +56,6 @@ namespace ft {
 
 	template <>
 	struct is_integral<unsigned long long> : public true_type{};
-};
+}
 
 #endif

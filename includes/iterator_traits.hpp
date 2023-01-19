@@ -42,7 +42,7 @@ namespace	ft {
 		typedef typename Iterator::pointer				pointer;
 		typedef typename Iterator::reference			reference;
 	};
-};
+}
 
 
 #endif

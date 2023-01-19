@@ -77,6 +77,6 @@ namespace	ft {
 	template<typename Iterator1, typename Iterator2> inline bool operator<=(const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs) { return (lhs.base() >= rhs.base()); }
 	template<typename Iterator1, typename Iterator2> inline bool operator>(const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs) { return (lhs.base() < rhs.base()); }
 	template<typename Iterator1, typename Iterator2> inline bool operator>=(const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs) { return (lhs.base() <= rhs.base()); }
-};
+}
 
 #endif
