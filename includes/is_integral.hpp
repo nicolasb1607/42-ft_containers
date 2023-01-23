@@ -9,7 +9,7 @@ namespace ft
 		static const T value = v;
 		typedef T value_type;
 		typedef integral_constant<T, v> type;
-		const operator T() const noexcept  { return v; }  // noexcept if for compilation-time to not throw errors
+		const operator T() const { return v; };
 	};
 
 	typedef ft::integral_constant<bool, true> true_type;
@@ -38,7 +38,7 @@ namespace ft
 
 	template <>
 	struct is_integral<int> : public true_type{};
-
+	
 	template <>
 	struct is_integral<long> : public true_type{};
 
