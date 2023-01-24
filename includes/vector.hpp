@@ -50,7 +50,7 @@ namespace ft
 			{ _start = _allocator.allocate(1); }
 
 
-			// Fill Constructor
+			// Fill Constructor == FURTHER TEST NEEDED
 			explicit vector(size_type n, const value_type& val = value_type(),
 							const allocator_type& alloc = allocator_type())
 			: _allocator(alloc), _start(NULL), _end(NULL), _size(n), _capacity(n)
@@ -79,10 +79,17 @@ namespace ft
 				}
 			}
 
-			//Copy Constructor
+			//Copy Constructor == FURTHER TEST NEEDED
 			vector(const vector& src)
+			: _allocator(src._allocator), _start(NULL), _end(NULL), _size(src._size),
+			_capacity(src._capacity)
 			{
-				//To be continued
+				_start = _allocator.allocate(_size);
+				_end = _start + _size;
+				for(size_type i = 0; i < _size; i++)
+				{
+					_allocator.construct(_start + i, *(src._start + i));
+				}
 			}
 
 

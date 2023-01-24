@@ -27,10 +27,11 @@ int main()
 
 		//FT
 		ft::vector<int> vectest(3, 9);
-		cout << "FT = " << realstl.capacity() << endl;
+		cout << "FT = " << vectest.capacity() << endl;
 
 
-
+		ft::vector<int> copyconstructvec(vectest);
+		cout << "COPY CONSTRUC = " << copyconstructvec.capacity() << endl;
 
 	return 0;
 }

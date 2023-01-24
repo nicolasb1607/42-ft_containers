@@ -3,6 +3,7 @@
 		"*.c": "c",
 		"map": "cpp",
 		"vector": "cpp",
-		"iostream": "cpp"
+		"iostream": "cpp",
+		"ostream": "cpp"
 	}
 }
