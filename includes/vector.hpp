@@ -64,8 +64,8 @@ namespace ft
 			}
 
 			//Range Constructor
-			template <class InputIterator, typename = typename ft::enable_if<!(ft::is_integral<InputIterator>::value_type)> >
-			vector(InputIterator first, InputIterator last,
+			template <class InputIterator>
+			vector(ENABLE_IF(InputIterator) first, InputIterator last,
 					const allocator_type& alloc = allocator_type())
 			: _allocator(alloc), _start(NULL), _end(NULL)
 			{
@@ -79,11 +79,11 @@ namespace ft
 				}
 			}
 
-			// //Copy Constructor
-			// vector(const vector& src)
-			// {
-			// 	//To be continued
-			// }
+			//Copy Constructor
+			vector(const vector& src)
+			{
+				//To be continued
+			}
 
 
 			/*-----------------------------------------------------------------------------------
