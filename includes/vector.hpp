@@ -5,6 +5,8 @@
 
 # include <iterator_traits.hpp>
 # include <reverse_iterator.hpp>
+# include <is_integral.hpp>
+# include <enable_if.hpp>
 # include <utils.hpp>
 
 namespace ft
@@ -24,8 +26,7 @@ namespace ft
 			typedef ft::reverse_iterator<iterator>								reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>						const_reverse_iterator;
 			typedef	typename ft::iterator_traits<iterator>::difference_type		difference_type;
-			typedef std::size_t													size_type; // PAS sur de la valeur de retour... 
-
+			typedef std::size_t													size_type;
 
 		private :
 			allocator_type	_allocator;
@@ -37,7 +38,13 @@ namespace ft
 
 		public :
 
-			// Default Constructor
+			/*-----------------------------------------------------------------------------------
+			|																					|
+			|									CONSTRUCTOR										|
+			|																					|
+			-----------------------------------------------------------------------------------*/
+
+			// Default Constructor   == TEST OK
 			explicit vector(const allocator_type& alloc = allocator_type())
 			: _allocator(alloc), _start(NULL), _end(NULL), _size(0), _capacity(0)
 			{ _start = _allocator.allocate(1); }
@@ -57,7 +64,7 @@ namespace ft
 			}
 
 			//Range Constructor
-			template <class InputIterator>
+			template <class InputIterator, typename = typename ft::enable_if<!(ft::is_integral<InputIterator>::value_type)> >
 			vector(InputIterator first, InputIterator last,
 					const allocator_type& alloc = allocator_type())
 			: _allocator(alloc), _start(NULL), _end(NULL)
@@ -72,12 +79,18 @@ namespace ft
 				}
 			}
 
-			//Copy Constructor
-			vector(const vector& src)
-			{
-				//To be continued
-			}
+			// //Copy Constructor
+			// vector(const vector& src)
+			// {
+			// 	//To be continued
+			// }
 
+
+			/*-----------------------------------------------------------------------------------
+			|																					|
+			|									MEMBER FUNCTION									|
+			|																					|
+			-----------------------------------------------------------------------------------*/
 
 			size_type capacity() const { return _capacity; }
 		};

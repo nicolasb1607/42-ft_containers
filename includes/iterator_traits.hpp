@@ -11,7 +11,6 @@ namespace	ft {
 	struct	bidrectional_iterator_tag :		public forward_iterator_tag {};
 	struct	random_access_iterator_tag :	public bidrectional_iterator_tag {};
 
-
 	/* The iterator class template is a convenient base-class template to 
 	use when implementing your own iterator. */
 
@@ -24,7 +23,6 @@ namespace	ft {
 		typedef Pointer			pointer;
 		typedef Reference		reference;
 	};
-
 
 	/* The iterator_traits class template declares traits for an iterator. 
 	If you use the iterator class template as the base for your custom 
@@ -43,7 +41,6 @@ namespace	ft {
 		typedef typename Iterator::reference			reference;
 	};
 
-
 	// Partial specialization for pointer types
 	template <class T>
 	struct iterator_traits<T*> {
@@ -53,7 +50,6 @@ namespace	ft {
 		typedef T*							pointer;
 		typedef T&							reference;
 	};
-
 
 	// Partial specialization for const pointer types
 	template <class T>
@@ -65,9 +61,7 @@ namespace	ft {
 		typedef const T*					pointer;
 		typedef const T&					reference;
 	};
-	
 }
-
 
 #endif
 

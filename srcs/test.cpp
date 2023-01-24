@@ -3,14 +3,33 @@
 
 
 #include <vector.hpp>
+#include <vector>
 
 using namespace std;
 
 int main()
 {
-	ft::vector<int> vectest(6);
+	/*----------------------------------------TEST CONSTRUTOR------------------------------------*/
 
-	cout << vectest.capacity() << endl;
+	// DEFAULT		
+		//STL
+		// vector<int> realstl(std::allocator<int>);
+		// cout << realstl.capacity() << endl;
+
+		// FT
+		// ft::vector<int> vectest(std::allocator<int>);
+		// cout << vectest.capacity() << endl;
+
+	//FILL CONSTRUCTOR
+		//STL
+		vector<int> realstl(3, 9);
+		cout << "STL = " << realstl.capacity() << endl;
+
+		//FT
+		ft::vector<int> vectest(3, 9);
+		cout << "FT = " << realstl.capacity() << endl;
+
+
 
 
 	return 0;
