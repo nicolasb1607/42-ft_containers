@@ -18,11 +18,11 @@ namespace	ft {
 	template<typename Category, typename T, typename Difference = ptrdiff_t,
 			typename Pointer = T*, typename Reference = T&>
 	struct iterator {
-		typedef typename T			value_type;
-		typedef typename Difference	difference_type;
-		typedef typename Category	iterator_category;
-		typedef typename Pointer	pointer;
-		typedef typename Reference	reference;
+		typedef T				value_type;
+		typedef Difference		difference_type;
+		typedef Category		iterator_category;
+		typedef Pointer			pointer;
+		typedef Reference		reference;
 	};
 
 
@@ -42,6 +42,30 @@ namespace	ft {
 		typedef typename Iterator::pointer				pointer;
 		typedef typename Iterator::reference			reference;
 	};
+
+
+	// Partial specialization for pointer types
+	template <class T>
+	struct iterator_traits<T*> {
+		typedef random_access_iterator_tag	iterator_category;
+		typedef T							value_type;
+		typedef ptrdiff_t					difference_type;
+		typedef T*							pointer;
+		typedef T&							reference;
+	};
+
+
+	// Partial specialization for const pointer types
+	template <class T>
+	struct iterator_traits<const T*>
+	{
+		typedef random_access_iterator_tag	iterator_category;
+		typedef T							value_type;
+		typedef ptrdiff_t					difference_type;
+		typedef const T*					pointer;
+		typedef const T&					reference;
+	};
+	
 }
 
 

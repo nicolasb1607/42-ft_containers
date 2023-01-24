@@ -42,7 +42,7 @@ namespace	ft {
 			//Conversion constructor
 			template <typename U> reverse_iterator(const reverse_iterator<U>& u) : _current(u.base()) { }
 
-			Iterator	base() const { return _current };
+			Iterator	base() const { return _current; };
 
 			reference	operator*() const { Iterator tmp = _current; return *--tmp; }
 			pointer		operator->() const { return &(operator*()); }

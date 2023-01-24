@@ -9,7 +9,7 @@
 
 namespace ft
 {
-	template<class T, class Alloc = std::allocator<T>>
+	template< class T, class Alloc = std::allocator<T> >
 	class vector
 	{
 		public : 
@@ -19,8 +19,8 @@ namespace ft
 			typedef typename Alloc::const_reference								const_reference;
 			typedef typename Alloc::pointer										pointer;
 			typedef typename Alloc::const_pointer								const_pointer;
-			typedef ft::iterator<random_access_iterator_tag, value_type>		iterator;
-			typedef ft::iterator<random_access_iterator_tag, const_reference>	const_iterator;
+			typedef T*															iterator;
+			typedef const iterator												const_iterator;
 			typedef ft::reverse_iterator<iterator>								reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>						const_reverse_iterator;
 			typedef	typename ft::iterator_traits<iterator>::difference_type		difference_type;
@@ -39,14 +39,14 @@ namespace ft
 
 			// Default Constructor
 			explicit vector(const allocator_type& alloc = allocator_type())
-			: _allocator(alloc), _start(nullptr), _end(nullptr), _size(0), _capacity(0)
+			: _allocator(alloc), _start(NULL), _end(NULL), _size(0), _capacity(0)
 			{ _start = _allocator.allocate(1); }
 
 
 			// Fill Constructor
 			explicit vector(size_type n, const value_type& val = value_type(),
 							const allocator_type& alloc = allocator_type())
-			: _allocator(alloc), _start(nullptr), _end(nullptr), _size(n), _capacity(n)
+			: _allocator(alloc), _start(NULL), _end(NULL), _size(n), _capacity(n)
 			{
 				_start = _allocator.allocate(n);
 				_end = _start + n;
@@ -60,9 +60,9 @@ namespace ft
 			template <class InputIterator>
 			vector(InputIterator first, InputIterator last,
 					const allocator_type& alloc = allocator_type())
-			: _allocator(alloc), _start(nullptr), _end(nullptr)
+			: _allocator(alloc), _start(NULL), _end(NULL)
 			{
-				_size = ft::distance(first, last);
+				_size = std::distance(first, last);
 				_capacity = _size;
 				_start = _allocator.allocate(_size);
 				_end = _start + _size;
@@ -75,14 +75,12 @@ namespace ft
 			//Copy Constructor
 			vector(const vector& src)
 			{
-				
+				//To be continued
 			}
 
 
-
-
-
-		}
+			size_type capacity() const { return _capacity; }
+		};
 }
 
 #endif
