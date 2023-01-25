@@ -180,7 +180,7 @@ namespace ft
 			*/
 			// reference back() {}
 
-			// const_reference back() 
+			// const_reference back()
 
 			/*-----------------------------------------------------------------------------------
 			|									ITERATORS										|
@@ -207,6 +207,16 @@ namespace ft
 			size_type max_size() const { return _allocator.max_size(); }
 			size_type capacity() const { return _capacity; }
 
+			void reserve(size_type new_cap)
+			{ 
+				if (new_cap > _capacity)
+				{
+					this.get_allocator().allocate(new_cap - _capacity);
+					_capacity = new_cap;
+
+				}
+			}
+
 
 			/*-----------------------------------------------------------------------------------
 			|										MODIFIERS									|
@@ -221,7 +231,7 @@ namespace ft
 		-----------------------------------------------------------------------------------*/
 
 
-		
+
 }
 
 #endif
