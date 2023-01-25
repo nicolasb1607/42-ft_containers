@@ -40,7 +40,7 @@ namespace ft
 
 			/*-----------------------------------------------------------------------------------
 			|																					|
-			|									CONSTRUCTOR										|
+			|								CONSTRUCTOR	/ DESTRUCTOR							|
 			|																					|
 			-----------------------------------------------------------------------------------*/
 
@@ -92,12 +92,62 @@ namespace ft
 				}
 			}
 
+			~vector()
+			{
+
+			}
 
 			/*-----------------------------------------------------------------------------------
 			|																					|
 			|									MEMBER FUNCTION									|
 			|																					|
 			-----------------------------------------------------------------------------------*/
+
+
+			/*
+			Any elements held in the containe before the call are destroyed and replaced by newly
+			constructed elements
+			This causes an automatic reallocation of the allocated storage space if -and only if-
+			the new vector _size surpasses the current vector capacity
+			*/
+			// void assign(size_type n, const value_type& val)
+			// {
+			// 	//Scenario 1 (n >= dst._size && n < dst._capacity)
+			// 	//Replace the content of dst by src content
+				
+			// 	//Scenario 2 (n <= dst._size && n < dst._capacity)
+			// 	//Replace the content of dst by src content
+			// 	//Destroy the rest of dst content
+
+			// 	//Scenario 3 (n >= dst._size && n > dst._capacity)
+			// 	//Create a tmp vector allocate and construct it
+			// 	//Destroy && deallocate dst vector
+			// }
+
+			// template <class InputIterator>
+			// void assign(InputIterator first, InputIterator last)
+			// {}
+
+			
+			/*
+			Access element.
+			Return a reference to the element at position n in the vector
+			*/
+			reference at(size_type n) { return (*(_start + n)); }
+
+			const_reference at(size_type n) const { return (*(_start + n)); }
+
+
+			/*
+			Access the last element
+			Return a reference to the last element in the vector
+			Unlike vector::end, which returns an iterator just past this element, this function
+			returns a direct reference.
+			*/
+			reference back() {}
+
+			const_reference back() 
+
 
 			size_type capacity() const { return _capacity; }
 		};

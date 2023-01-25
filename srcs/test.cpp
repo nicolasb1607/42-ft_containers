@@ -23,11 +23,12 @@ int main()
 	//FILL CONSTRUCTOR
 		//STL
 		vector<int> realstl(3, 9);
-		cout << "STL = " << realstl.capacity() << endl;
+		cout << "STL = " << realstl.capacity() << " content a position 3 = "<< realstl.at(2) << endl;
+
 
 		//FT
 		ft::vector<int> vectest(3, 9);
-		cout << "FT = " << vectest.capacity() << endl;
+		cout << "FT = " << vectest.capacity() << " content a position 3 = "<< vectest.at(2) << endl;
 
 
 		ft::vector<int> copyconstructvec(vectest);
