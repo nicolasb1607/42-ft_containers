@@ -9,6 +9,32 @@
 # include <enable_if.hpp>
 # include <utils.hpp>
 
+
+/*
+TODO
+	- assign
+	- back
+	- clear
+	- front
+	- insert
+	- operator[]
+	- operator=
+	- pop_back
+	- push_back
+	- reserve
+	- resize
+	- swap
+
+
+	EXCEPTION std::out_of_range for instance 
+	RELATIONAL OPERATORS
+	SWAP VECTOR
+*/
+
+
+
+
+
 namespace ft
 {
 	template< class T, class Alloc = std::allocator<T> >
@@ -30,7 +56,7 @@ namespace ft
 
 		private :
 			allocator_type	_allocator;
-			pointer			_start;
+			pointer			_begin;
 			pointer			_end; // Pas sur d en avoir besoin, a voir pour la suite
 			size_type		_size;
 			size_type		_capacity;
@@ -46,20 +72,20 @@ namespace ft
 
 			// Default Constructor   == TEST OK
 			explicit vector(const allocator_type& alloc = allocator_type())
-			: _allocator(alloc), _start(NULL), _end(NULL), _size(0), _capacity(0)
-			{ _start = _allocator.allocate(1); }
+			: _allocator(alloc), _begin(NULL), _end(NULL), _size(0), _capacity(0)
+			{ _begin = _allocator.allocate(1); }
 
 
 			// Fill Constructor == FURTHER TEST NEEDED
 			explicit vector(size_type n, const value_type& val = value_type(),
 							const allocator_type& alloc = allocator_type())
-			: _allocator(alloc), _start(NULL), _end(NULL), _size(n), _capacity(n)
+			: _allocator(alloc), _begin(NULL), _end(NULL), _size(n), _capacity(n)
 			{
-				_start = _allocator.allocate(n);
-				_end = _start + n;
+				_begin = _allocator.allocate(n);
+				_end = _begin + n;
 				for(size_type i = 0; i < n; i++)
 				{
-					_allocator.construct(_start + i, val);
+					_allocator.construct(_begin + i, val);
 				}
 			}
 
@@ -67,28 +93,28 @@ namespace ft
 			template <class InputIterator>
 			vector(ENABLE_IF(InputIterator) first, InputIterator last,
 					const allocator_type& alloc = allocator_type())
-			: _allocator(alloc), _start(NULL), _end(NULL)
+			: _allocator(alloc), _begin(NULL), _end(NULL)
 			{
 				_size = std::distance(first, last);
 				_capacity = _size;
-				_start = _allocator.allocate(_size);
-				_end = _start + _size;
+				_begin = _allocator.allocate(_size);
+				_end = _begin + _size;
 				for (difference_type i = 0; first != _end; first++, i++)
 				{
-					_allocator.construct(_start + i, *first);
+					_allocator.construct(_begin + i, *first);
 				}
 			}
 
 			//Copy Constructor == FURTHER TEST NEEDED
 			vector(const vector& src)
-			: _allocator(src._allocator), _start(NULL), _end(NULL), _size(src._size),
+			: _allocator(src._allocator), _begin(NULL), _end(NULL), _size(src._size),
 			_capacity(src._capacity)
 			{
-				_start = _allocator.allocate(_size);
-				_end = _start + _size;
+				_begin = _allocator.allocate(_size);
+				_end = _begin + _size;
 				for(size_type i = 0; i < _size; i++)
 				{
-					_allocator.construct(_start + i, *(src._start + i));
+					_allocator.construct(_begin + i, *(src._begin + i));
 				}
 			}
 
@@ -102,7 +128,6 @@ namespace ft
 			|									MEMBER FUNCTION									|
 			|																					|
 			-----------------------------------------------------------------------------------*/
-
 
 			/*
 			Any elements held in the containe before the call are destroyed and replaced by newly
@@ -129,14 +154,23 @@ namespace ft
 			// {}
 
 			
+
+
+
+			allocator_type get_allocator() const { return _allocator; }
+
+
+			/*-----------------------------------------------------------------------------------
+			|									ELEMENT ACCESS									|
+			-----------------------------------------------------------------------------------*/
+
 			/*
 			Access element.
 			Return a reference to the element at position n in the vector
 			*/
-			reference at(size_type n) { return (*(_start + n)); }
+			reference at(size_type n) { return (*(_begin + n)); }
 
-			const_reference at(size_type n) const { return (*(_start + n)); }
-
+			const_reference at(size_type n) const { return (*(_begin + n)); }
 
 			/*
 			Access the last element
@@ -144,13 +178,50 @@ namespace ft
 			Unlike vector::end, which returns an iterator just past this element, this function
 			returns a direct reference.
 			*/
-			reference back() {}
+			// reference back() {}
 
-			const_reference back() 
+			// const_reference back() 
 
+			/*-----------------------------------------------------------------------------------
+			|									ITERATORS										|
+			-----------------------------------------------------------------------------------*/
 
+			iterator begin() { return _begin; }
+			const_iterator begin() const { return _begin; }
+
+			iterator end() { return _end; }
+			const_iterator end() const { return _end }
+
+			reverse_iterator rbegin() { return reverse_iterator(begin()); }
+			const_reverse_iterator rbegin() const { return const_reverse_iterator(begin()); }
+
+			reverse_iterator rend() { return reverse_iterator(end()); }
+			const_reverse_iterator rend() const { return const_reverse_iterator(end()); }
+
+			/*-----------------------------------------------------------------------------------
+			|									CAPACITY										|
+			-----------------------------------------------------------------------------------*/
+
+			bool empty() const { return ((_size == 0) ? true:false); }
+			size_type size() const { return _size; }
+			size_type max_size() const { return _allocator.max_size(); }
 			size_type capacity() const { return _capacity; }
+
+
+			/*-----------------------------------------------------------------------------------
+			|										MODIFIERS									|
+			-----------------------------------------------------------------------------------*/
 		};
+
+
+		/*-----------------------------------------------------------------------------------
+		|																					|
+		|									NON-MEMBER FUNCTION								|
+		|																					|
+		-----------------------------------------------------------------------------------*/
+
+
+		
 }
 
 #endif
