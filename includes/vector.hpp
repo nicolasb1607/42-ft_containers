@@ -19,11 +19,8 @@
 /*
 TODO
 	- assign
-	- back
 	- clear
-	- front
 	- insert
-	- operator[]
 	- operator=
 	- pop_back
 	- push_back
@@ -75,13 +72,13 @@ namespace ft
 			|																					|
 			-----------------------------------------------------------------------------------*/
 
-			// Default Constructor   == TEST OK
+			// Default Constructor
 			explicit vector(const allocator_type& alloc = allocator_type())
 			: _allocator(alloc), _begin(NULL), _end(NULL), _size(0), _capacity(0)
 			{ _begin = _allocator.allocate(1); }
 
 
-			// Fill Constructor == FURTHER TEST NEEDED
+			// Fill Constructor
 			explicit vector(size_type n, const value_type& val = value_type(),
 							const allocator_type& alloc = allocator_type())
 			: _allocator(alloc), _begin(NULL), _end(NULL), _size(n), _capacity(n)
@@ -110,7 +107,7 @@ namespace ft
 				}
 			}
 
-			//Copy Constructor == FURTHER TEST NEEDED
+			//Copy Constructor
 			vector(const vector& src)
 			: _allocator(src._allocator), _begin(NULL), _end(NULL), _size(src._size),
 			_capacity(src._capacity)
@@ -125,7 +122,11 @@ namespace ft
 
 			~vector()
 			{
-
+				for (size_type n = 0; n < _size; n++)
+				{
+					_allocator.destroy(_begin + n);
+				}
+				_allocator.deallocate(_begin, _size);
 			}
 
 			/*-----------------------------------------------------------------------------------
@@ -174,10 +175,10 @@ namespace ft
 			Return a reference to the element at position n in the vector
 			*/
 			reference at(size_type n) { return (*(_begin + n)); }
-
 			const_reference at(size_type n) const { return (*(_begin + n)); }
 
-			
+			reference operator[](size_type pos) { return (*(_begin + pos)); }
+			const_reference operator[](size_type pos) cosnt { return (*(_begin + pos)); }
 
 			reference front() { return *_begin; }
 			const_reference front() const { return *_begin; }
