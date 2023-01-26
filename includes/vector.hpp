@@ -27,7 +27,6 @@ TODO
 	- operator=
 	- pop_back
 	- push_back
-	- reserve
 	- resize
 	- swap
 
@@ -178,15 +177,13 @@ namespace ft
 
 			const_reference at(size_type n) const { return (*(_begin + n)); }
 
-			/*
-			Access the last element
-			Return a reference to the last element in the vector
-			Unlike vector::end, which returns an iterator just past this element, this function
-			returns a direct reference.
-			*/
-			// reference back() {}
+			
 
-			// const_reference back()
+			reference front() { return *_begin; }
+			const_reference front() const { return *_begin; }
+			
+			reference back() { return *(_end - 1); }
+			const_reference back() const { return *(_end - 1) }
 
 			/*-----------------------------------------------------------------------------------
 			|									ITERATORS										|
