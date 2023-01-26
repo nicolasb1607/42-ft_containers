@@ -2,12 +2,18 @@
 #define VECTOR_HPP
 
 # include <memory>
+# include <algorithm>
 
 # include <iterator_traits.hpp>
 # include <reverse_iterator.hpp>
 # include <is_integral.hpp>
 # include <enable_if.hpp>
 # include <utils.hpp>
+
+
+//DEBUG
+
+#include <iostream>
 
 
 /*
@@ -54,7 +60,7 @@ namespace ft
 			typedef	typename ft::iterator_traits<iterator>::difference_type		difference_type;
 			typedef std::size_t													size_type;
 
-		private :
+		protected :
 			allocator_type	_allocator;
 			pointer			_begin;
 			pointer			_end; // Pas sur d en avoir besoin, a voir pour la suite
@@ -190,7 +196,7 @@ namespace ft
 			const_iterator begin() const { return _begin; }
 
 			iterator end() { return _end; }
-			const_iterator end() const { return _end }
+			const_iterator end() const { return _end; }
 
 			reverse_iterator rbegin() { return reverse_iterator(begin()); }
 			const_reverse_iterator rbegin() const { return const_reverse_iterator(begin()); }
@@ -208,12 +214,30 @@ namespace ft
 			size_type capacity() const { return _capacity; }
 
 			void reserve(size_type new_cap)
-			{ 
+			{
+
+				/*
+					creer une allocation tmp avec la nouvelle taille
+					construire les valeur a partir de la zone d origine
+					destruire les valeurs de la zone d origine
+					deallocate la zone d oeigine  
+				*/
 				if (new_cap > _capacity)
 				{
-					this.get_allocator().allocate(new_cap - _capacity);
+					pointer new_begin = _allocator.allocate(new_cap);
+					for (iterator it = _begin; it != _end; it++)
+					{
+						std::cout <<"iterator content = " << *it << std::endl; 
+						std::copy(it, _end, new_begin);
+					}
+					for (size_type n = 0; n < _size; n++)
+					{
+						_allocator.destroy(_begin + n);
+					}
+					_allocator.deallocate(_begin, _size);
 					_capacity = new_cap;
-
+					_begin = new_begin;
+					_end = _begin + _size;
 				}
 			}
 
