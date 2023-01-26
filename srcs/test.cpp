@@ -44,7 +44,7 @@ int main()
 		// cout << "COPY CONSTRUC = " << copyconstructvec.capacity() << endl;
 
 		cout << "FT previous cap = " << vectest.capacity() << " content a position 3 = "<< vectest.at(2) << endl;
-		vectest.reserve(10);
+		vectest.reserve(2);
 		cout << "FT new_cap = " << vectest.capacity() << " content a position 3 = "<< vectest.at(2) << endl;
 
 	return 0;
