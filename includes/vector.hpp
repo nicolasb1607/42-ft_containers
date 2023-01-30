@@ -215,10 +215,8 @@ namespace ft
 				if (new_cap > _capacity)
 				{
 					pointer new_begin = _allocator.allocate(new_cap);
-
 					iterator it = _begin;
 					std::copy(it, _end, new_begin);
-
 					for (size_type n = 0; n < _size; n++)
 					{
 						_allocator.destroy(_begin + n);
@@ -246,17 +244,28 @@ namespace ft
 				_end = NULL;
 			}
 
-			// iterator erase(iterator pos)
+			iterator erase(iterator pos)
+			{
+				if(pos == _end)
+					return (end());
+				else
+				{
+					for(iterator tmp = pos ; (tmp + 1) != end(); tmp++)
+					{
+						_allocator.destroy(tmp);
+						_allocator.construct(tmp, *(tmp + 1));
+					}
+					_size--;
+					return(pos);
+				}
+			}
+
+			// iterator erase(iterator first, iterator last)
 			// {
-				
+
 
 			// }
 
-			// iterator erase(const_iterator pos)
-			// {
-
-
-			// }
 
 			void push_back(const T& value)
 			{
@@ -265,14 +274,12 @@ namespace ft
 					double growth_factor = 1.5; //Based on FACEBOOK studies
 					int new_cap = (int) round((double) _capacity * growth_factor);
 					reserve(new_cap);
-					_allocator.construct(end(), value);
+					_allocator.construct(_end, value);
 				}
 				else
 					_allocator.construct(_end, value);
 				_size++;
 				_end = _begin + _size;
-				
-				
 			}
 
 			void pop_back()
@@ -284,13 +291,20 @@ namespace ft
 
 
 
-			// /*
-			// Reduce the size of the vector without changing its capacity, unless the _size  
-			// */
-			// void resize( size_type count )
-			// {
+			/*
+			Reduce the size of the vector without changing its capacity, unless the _size  
+			*/
+			void resize( size_type count )
+			{
+				if(count < _size)
+				{
 
-			// }
+				}
+				if( count > _size)
+				{
+
+				}
+			}
 
 			// void resize( size_type count, T value = T() )
 			// {

@@ -67,19 +67,18 @@ int main()
 
 		vectest.pop_back();
 
+		ft::vector<int>::iterator pos = vectest.begin();
+		pos += 3;
+		vectest.erase(pos);
 
 		for(ft::vector<int>::iterator it = vectest.begin(); it != vectest.end(); it++)
 		{
 			std::cout << "content after pop = " << *it << std::endl;
 		}
 		std::cout << "_capacity after pop = " << vectest.capacity() << std::endl;
+		std::cout << "_size after pop = " << vectest.size() << std::endl;
 
 		vectest.clear();
-
-		for(ft::vector<int>::iterator it = vectest.begin(); it != vectest.end(); it++)
-		{
-			std::cout << "content after clear = " << *it << std::endl;
-		}
 
 	return 0;
 }
