@@ -69,7 +69,7 @@ int main()
 
 		ft::vector<int>::iterator pos = vectest.begin();
 		pos += 3;
-		vectest.erase(pos);
+		vectest.erase(pos, vectest.end());
 
 		for(ft::vector<int>::iterator it = vectest.begin(); it != vectest.end(); it++)
 		{

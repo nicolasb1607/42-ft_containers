@@ -261,11 +261,22 @@ namespace ft
 				}
 			}
 
-			// iterator erase(iterator first, iterator last)
-			// {
-
-
-			// }
+			iterator erase(iterator first, iterator last)
+			{
+				if(first == last)
+					return (last);
+				else
+				{
+					ptrdiff_t diff = last - first;
+					for(iterator it = first; it != last; it++)
+						_allocator.destroy(it);
+					for(iterator it = first; (it + diff) != end(); it++)
+						_allocator.construct(it, *(it + diff));
+					_size -= diff;
+					_end = end();
+					return(first);
+				}
+			}
 
 
 			void push_back(const T& value)
