@@ -20,7 +20,6 @@
 /*
 TODO
 	- assign
-	- erase
 	- insert
 	- operator=
 	- resize
@@ -31,9 +30,6 @@ TODO
 	RELATIONAL OPERATORS
 	SWAP VECTOR
 */
-
-
-
 
 
 namespace ft
@@ -244,6 +240,22 @@ namespace ft
 				_end = NULL;
 			}
 
+			iterator insert(iterator position, const value_type& val)
+			{
+
+			}
+
+			void insert(iterator position, size_type n, const value_type& val)
+			{
+
+			}
+
+			template <class InputIterator>
+			void insert(iterator position, ENABLE_IF(InputIterator) first, InputIterator last)
+			{
+
+			}
+
 			iterator erase(iterator pos)
 			{
 				if (pos == _end)
@@ -261,9 +273,10 @@ namespace ft
 				}
 			}
 
+
 			iterator erase(iterator first, iterator last)
 			{
-				if(first == last)
+				if (first == last)
 					return (last);
 				else
 				{
@@ -278,10 +291,9 @@ namespace ft
 				}
 			}
 
-
 			void push_back(const T& value)
 			{
-				if(_size + 1 > _capacity)
+				if (_size + 1 > _capacity)
 				{
 					double growth_factor = 1.5; //Based on FACEBOOK studies
 					int new_cap = (int) round((double) _capacity * growth_factor);
@@ -302,17 +314,16 @@ namespace ft
 			}
 
 
-
 			/*
-			Reduce the size of the vector without changing its capacity, unless the _size  
+			Reduce the size of the vector without changing its capacity, unless the _size
 			*/
-			void resize( size_type count )
+			void resize( size_type n, value_type val = value_type())
 			{
-				if(count < _size)
+				if (n < _size)
 				{
 
 				}
-				if( count > _size)
+				if (n > _size)
 				{
 
 				}
