@@ -52,10 +52,33 @@ int main()
 		vectest.push_back(7);
 		vectest.push_back(8);
 		vectest.push_back(45);
+		vectest.push_back(45);
+		vectest.push_back(45);
+		vectest.push_back(45);
+		vectest.push_back(45);
+		vectest.push_back(45);
+		vectest.push_back(45);
+		vectest.push_back(45);
 
 		for(ft::vector<int>::iterator it = vectest.begin(); it != vectest.end(); it++)
 		{
 			std::cout << "content = " << *it << std::endl;
+		}
+
+		vectest.pop_back();
+
+
+		for(ft::vector<int>::iterator it = vectest.begin(); it != vectest.end(); it++)
+		{
+			std::cout << "content after pop = " << *it << std::endl;
+		}
+		std::cout << "_capacity after pop = " << vectest.capacity() << std::endl;
+
+		vectest.clear();
+
+		for(ft::vector<int>::iterator it = vectest.begin(); it != vectest.end(); it++)
+		{
+			std::cout << "content after clear = " << *it << std::endl;
 		}
 
 	return 0;
