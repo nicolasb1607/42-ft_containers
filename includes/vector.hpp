@@ -20,11 +20,9 @@
 /*
 TODO
 	- assign
-	- clear
 	- erase
 	- insert
 	- operator=
-	- push_back
 	- resize
 	- swap
 
@@ -266,19 +264,8 @@ namespace ft
 				{
 					double growth_factor = 1.5; //Based on FACEBOOK studies
 					int new_cap = (int) round((double) _capacity * growth_factor);
-					std::cout << "previous cap = " << _capacity << std::endl;
-					std::cout << "new_cap after growth = " << new_cap << std::endl;
-					pointer new_begin = _allocator.allocate(new_cap);
-					iterator it = _begin;
-					std::copy(it, _end, new_begin);
-					_allocator.construct(new_begin + _size, value);
-					for (size_type n = 0; n < _size; n++)
-					{
-						_allocator.destroy(_begin + n);
-					}
-					_allocator.deallocate(_begin, _size);
-					_begin = new_begin; 
-					_capacity = new_cap;
+					reserve(new_cap);
+					_allocator.construct(end(), value);
 				}
 				else
 					_allocator.construct(_end, value);
@@ -295,6 +282,20 @@ namespace ft
 				_end = _begin + _size;
 			}
 
+
+
+			// /*
+			// Reduce the size of the vector without changing its capacity, unless the _size  
+			// */
+			// void resize( size_type count )
+			// {
+
+			// }
+
+			// void resize( size_type count, T value = T() )
+			// {
+
+			// }
 		};
 
 
