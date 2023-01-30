@@ -47,5 +47,16 @@ int main()
 		vectest.reserve(2);
 		cout << "FT new_cap = " << vectest.capacity() << " content a position 3 = "<< vectest.at(2) << endl;
 
+
+		vectest.push_back(5);
+		vectest.push_back(7);
+		vectest.push_back(8);
+		vectest.push_back(45);
+
+		for(ft::vector<int>::iterator it = vectest.begin(); it != vectest.end(); it++)
+		{
+			std::cout << "content = " << *it << std::endl;
+		}
+
 	return 0;
 }

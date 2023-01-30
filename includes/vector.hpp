@@ -3,6 +3,7 @@
 
 # include <memory>
 # include <algorithm>
+# include <cmath>
 
 # include <iterator_traits.hpp>
 # include <reverse_iterator.hpp>
@@ -20,9 +21,9 @@
 TODO
 	- assign
 	- clear
+	- erase
 	- insert
 	- operator=
-	- pop_back
 	- push_back
 	- resize
 	- swap
@@ -42,7 +43,7 @@ namespace ft
 	template< class T, class Alloc = std::allocator<T> >
 	class vector
 	{
-		public : 
+		public :
 			typedef T															value_type;
 			typedef Alloc														allocator_type;
 			typedef typename Alloc::reference									reference;
@@ -178,13 +179,13 @@ namespace ft
 			const_reference at(size_type n) const { return (*(_begin + n)); }
 
 			reference operator[](size_type pos) { return (*(_begin + pos)); }
-			const_reference operator[](size_type pos) cosnt { return (*(_begin + pos)); }
+			const_reference operator[](size_type pos) const { return (*(_begin + pos)); }
 
 			reference front() { return *_begin; }
 			const_reference front() const { return *_begin; }
 			
 			reference back() { return *(_end - 1); }
-			const_reference back() const { return *(_end - 1) }
+			const_reference back() const { return *(_end - 1); }
 
 			/*-----------------------------------------------------------------------------------
 			|									ITERATORS										|
@@ -193,8 +194,8 @@ namespace ft
 			iterator begin() { return _begin; }
 			const_iterator begin() const { return _begin; }
 
-			iterator end() { return _end; }
-			const_iterator end() const { return _end; }
+			iterator end() { return _begin + _size; }
+			const_iterator end() const { return _begin + _size; }
 
 			reverse_iterator rbegin() { return reverse_iterator(begin()); }
 			const_reverse_iterator rbegin() const { return const_reverse_iterator(begin()); }
@@ -213,21 +214,13 @@ namespace ft
 
 			void reserve(size_type new_cap)
 			{
-
-				/*
-					creer une allocation tmp avec la nouvelle taille
-					construire les valeur a partir de la zone d origine
-					destruire les valeurs de la zone d origine
-					deallocate la zone d oeigine  
-				*/
 				if (new_cap > _capacity)
 				{
 					pointer new_begin = _allocator.allocate(new_cap);
-					for (iterator it = _begin; it != _end; it++)
-					{
-						std::cout <<"iterator content = " << *it << std::endl; 
-						std::copy(it, _end, new_begin);
-					}
+
+					iterator it = _begin;
+					std::copy(it, _end, new_begin);
+
 					for (size_type n = 0; n < _size; n++)
 					{
 						_allocator.destroy(_begin + n);
@@ -243,6 +236,65 @@ namespace ft
 			/*-----------------------------------------------------------------------------------
 			|										MODIFIERS									|
 			-----------------------------------------------------------------------------------*/
+
+			void clear()
+			{
+				for (size_type n = 0; n < _size; n++)
+					{
+						_allocator.destroy(_begin + n);
+					}
+				_size = 0;
+				_begin = NULL;
+				_end = NULL;
+			}
+
+			// iterator erase(iterator pos)
+			// {
+				
+
+			// }
+
+			// iterator erase(const_iterator pos)
+			// {
+
+
+			// }
+
+			void push_back(const T& value)
+			{
+				if(_size + 1 > _capacity)
+				{
+					double growth_factor = 1.5; //Based on FACEBOOK studies
+					int new_cap = (int) round((double) _capacity * growth_factor);
+					std::cout << "previous cap = " << _capacity << std::endl;
+					std::cout << "new_cap after growth = " << new_cap << std::endl;
+					pointer new_begin = _allocator.allocate(new_cap);
+					iterator it = _begin;
+					std::copy(it, _end, new_begin);
+					_allocator.construct(new_begin + _size, value);
+					for (size_type n = 0; n < _size; n++)
+					{
+						_allocator.destroy(_begin + n);
+					}
+					_allocator.deallocate(_begin, _size);
+					_begin = new_begin; 
+					_capacity = new_cap;
+				}
+				else
+					_allocator.construct(_end, value);
+				_size++;
+				_end = _begin + _size;
+				
+				
+			}
+
+			void pop_back()
+			{
+				_allocator.destroy(_end - 1);
+				_size--;
+				_end = _begin + _size;
+			}
+
 		};
 
 
