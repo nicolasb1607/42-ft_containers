@@ -58,14 +58,14 @@ int main()
 		vectest.push_back(45);
 		vectest.push_back(45);
 		vectest.push_back(45);
-		vectest.push_back(45);
+		vectest.push_back(12);
 
 		for(ft::vector<int>::iterator it = vectest.begin(); it != vectest.end(); it++)
 		{
 			std::cout << "content = " << *it << std::endl;
 		}
 
-		vectest.pop_back();
+		//vectest.pop_back();
 
 		ft::vector<int>::iterator pos = vectest.begin();
 		pos += 3;

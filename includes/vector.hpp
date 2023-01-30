@@ -246,16 +246,17 @@ namespace ft
 
 			iterator erase(iterator pos)
 			{
-				if(pos == _end)
+				if (pos == _end)
 					return (end());
 				else
 				{
-					for(iterator tmp = pos ; (tmp + 1) != end(); tmp++)
+					for(iterator tmp = pos ; tmp != end(); tmp++)
 					{
 						_allocator.destroy(tmp);
 						_allocator.construct(tmp, *(tmp + 1));
 					}
 					_size--;
+					_end = end();
 					return(pos);
 				}
 			}
