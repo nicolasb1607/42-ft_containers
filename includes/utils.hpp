@@ -10,6 +10,7 @@ namespace ft
 	template <class T>
 	T* addressof( T &arg )
 	{ return &arg; }
+
 }
 
 

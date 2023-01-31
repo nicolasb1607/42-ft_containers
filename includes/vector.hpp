@@ -54,9 +54,21 @@ namespace ft
 		protected :
 			allocator_type	_allocator;
 			pointer			_begin;
-			pointer			_end; // Pas sur d en avoir besoin, a voir pour la suite
+			pointer			_end;
 			size_type		_size;
 			size_type		_capacity;
+
+
+			int get_new_cap()
+			{
+				return (_capacity == 0) ? _capacity:(_capacity * 2);
+			}
+
+			void grow()
+			{
+				int new_cap = get_new_cap();
+				reserve(new_cap);
+			}
 
 
 		public :
@@ -240,21 +252,51 @@ namespace ft
 				_end = NULL;
 			}
 
+
+			//THROW OUT OF RANGE ??????
 			iterator insert(iterator position, const value_type& val)
 			{
-
+				int new_cap = _capacity;
+				if(_size + 1 > _capacity)
+					new_cap = get_new_cap();				
+				pointer new_begin = _allocator.allocate(new_cap);
+				iterator old_it = _begin;
+				iterator new_it = new_begin;
+				new_it = std::copy(old_it, position - 1, new_it);
+				_allocator.construct(new_it, val);
+				while (old_it != position - 1)
+					old_it++;
+				std::copy(old_it, _end, ++new_it);
+				_size++;
+				_begin = new_begin;
+				_end = end();
+				_capacity = new_cap;
 			}
 
 			void insert(iterator position, size_type n, const value_type& val)
 			{
-
+				int new_cap = _capacity;
+				while (_size + n > _capacity)
+					new_cap = get_new_cap();				
+				pointer new_begin = _allocator.allocate(new_cap);
+				iterator old_it = _begin;
+				iterator new_it = new_begin;
+				new_it = std::copy(old_it, position - 1, new_it);
+				_allocator.construct(new_it, val);
+				while (old_it != position - 1)
+					old_it++;
+				std::copy(old_it, _end, ++new_it);
+				_size++;
+				_begin = new_begin;
+				_end = end();
+				_capacity = new_cap;
 			}
 
-			template <class InputIterator>
-			void insert(iterator position, ENABLE_IF(InputIterator) first, InputIterator last)
-			{
+			// template <class InputIterator>
+			// void insert(iterator position, ENABLE_IF(InputIterator) first, InputIterator last)
+			// {
 
-			}
+			// }
 
 			iterator erase(iterator pos)
 			{
@@ -295,9 +337,7 @@ namespace ft
 			{
 				if (_size + 1 > _capacity)
 				{
-					double growth_factor = 1.5; //Based on FACEBOOK studies
-					int new_cap = (int) round((double) _capacity * growth_factor);
-					reserve(new_cap);
+					grow();
 					_allocator.construct(_end, value);
 				}
 				else
