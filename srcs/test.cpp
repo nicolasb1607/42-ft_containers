@@ -58,8 +58,8 @@ int main()
 		std::cout << "_size = "<< vectest.size() << " _capacity = " << vectest.capacity() << std::endl;
 
 		ft::vector<int>::iterator pos = vectest.begin();
-		pos += 50;
-		vectest.insert(pos, 42);
+		pos += 4;
+		vectest.insert(pos, 4, 42);
 		std::cout << "_size = "<< vectest.size() << " _capacity after insert = " << vectest.capacity() << std::endl;
 
 

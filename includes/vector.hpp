@@ -256,10 +256,9 @@ namespace ft
 			//THROW OUT OF RANGE ??????
 			iterator insert(iterator position, const value_type& val)
 			{
-				int new_cap = _capacity;
 				if(_size + 1 > _capacity)
-					new_cap = get_new_cap();				
-				pointer new_begin = _allocator.allocate(new_cap);
+					_capacity = get_new_cap();				
+				pointer new_begin = _allocator.allocate(_capacity);
 				iterator old_it = _begin;
 				iterator new_it = new_begin;
 				new_it = std::copy(old_it, position - 1, new_it);
@@ -270,26 +269,24 @@ namespace ft
 				_size++;
 				_begin = new_begin;
 				_end = end();
-				_capacity = new_cap;
 			}
 
 			void insert(iterator position, size_type n, const value_type& val)
 			{
-				int new_cap = _capacity;
 				while (_size + n > _capacity)
-					new_cap = get_new_cap();				
-				pointer new_begin = _allocator.allocate(new_cap);
+					_capacity = get_new_cap();				
+				pointer new_begin = _allocator.allocate(_capacity);
 				iterator old_it = _begin;
 				iterator new_it = new_begin;
 				new_it = std::copy(old_it, position - 1, new_it);
-				_allocator.construct(new_it, val);
+				for(size_type i = 0; i < n; i++ )
+					_allocator.construct(new_it + i, val);
 				while (old_it != position - 1)
 					old_it++;
-				std::copy(old_it, _end, ++new_it);
-				_size++;
+				std::copy(old_it, _end, new_it + n);
+				_size += n;
 				_begin = new_begin;
 				_end = end();
-				_capacity = new_cap;
 			}
 
 			// template <class InputIterator>
