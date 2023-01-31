@@ -59,7 +59,7 @@ namespace ft
 			size_type		_capacity;
 
 
-			int get_new_cap()
+			inline int get_new_cap()
 			{
 				return (_capacity == 0) ? _capacity:(_capacity * 2);
 			}
@@ -70,6 +70,14 @@ namespace ft
 				reserve(new_cap);
 			}
 
+			void delete_previous_instance()
+			{
+				for (size_type n = 0; n < _size; n++)
+				{
+					_allocator.destroy(_begin + n);
+				}
+				_allocator.deallocate(_begin, _size);
+			}
 
 		public :
 
@@ -129,11 +137,7 @@ namespace ft
 
 			~vector()
 			{
-				for (size_type n = 0; n < _size; n++)
-				{
-					_allocator.destroy(_begin + n);
-				}
-				_allocator.deallocate(_begin, _size);
+				delete_previous_instance();
 			}
 
 			/*-----------------------------------------------------------------------------------
@@ -225,11 +229,7 @@ namespace ft
 					pointer new_begin = _allocator.allocate(new_cap);
 					iterator it = _begin;
 					std::copy(it, _end, new_begin);
-					for (size_type n = 0; n < _size; n++)
-					{
-						_allocator.destroy(_begin + n);
-					}
-					_allocator.deallocate(_begin, _size);
+					delete_previous_instance();
 					_capacity = new_cap;
 					_begin = new_begin;
 					_end = _begin + _size;
@@ -252,7 +252,6 @@ namespace ft
 				_end = NULL;
 			}
 
-
 			//THROW OUT OF RANGE ??????
 			iterator insert(iterator position, const value_type& val)
 			{
@@ -266,6 +265,7 @@ namespace ft
 				while (old_it != position - 1)
 					old_it++;
 				std::copy(old_it, _end, ++new_it);
+				delete_previous_instance();
 				_size++;
 				_begin = new_begin;
 				_end = end();
@@ -279,21 +279,37 @@ namespace ft
 				iterator old_it = _begin;
 				iterator new_it = new_begin;
 				new_it = std::copy(old_it, position - 1, new_it);
-				for(size_type i = 0; i < n; i++ )
+				for (size_type i = 0; i < n; i++ )
 					_allocator.construct(new_it + i, val);
 				while (old_it != position - 1)
 					old_it++;
 				std::copy(old_it, _end, new_it + n);
+				delete_previous_instance();
 				_size += n;
 				_begin = new_begin;
 				_end = end();
 			}
 
-			// template <class InputIterator>
-			// void insert(iterator position, ENABLE_IF(InputIterator) first, InputIterator last)
-			// {
+			template <class InputIterator>
+			void insert(iterator position, ENABLE_IF(InputIterator) first, InputIterator last)
+			{
+				difference_type range_size = last - first;
+				while (_size + range_size > _capacity)
+					_capacity = get_new_cap();				
+				pointer new_begin = _allocator.allocate(_capacity);
+				iterator old_it = _begin;
+				iterator new_it = new_begin;
+				new_it = std::copy(old_it, position - 1, new_it);
+				std::copy(first, last, new_it);
+				while (old_it != position - 1)
+					old_it++;
+				std::copy(old_it, _end, new_it + range_size);
+				delete_previous_instance();
+				_size += range_size;
+				_begin = new_begin;
+				_end = end();
 
-			// }
+			}
 
 			iterator erase(iterator pos)
 			{
