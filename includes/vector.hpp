@@ -285,8 +285,6 @@ namespace ft
 			{
 				destroy_previous_content();
 				_size = 0;
-				// _begin = NULL;
-				// _end = NULL;
 			}
 
 			//THROW OUT OF RANGE ??????
