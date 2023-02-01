@@ -4,6 +4,7 @@
 # include <memory>
 # include <algorithm>
 # include <cmath>
+# include <stdexcept>
 
 # include <iterator_traits.hpp>
 # include <reverse_iterator.hpp>
@@ -12,19 +13,9 @@
 # include <equal.hpp>
 # include <utils.hpp>
 
-
-//DEBUG
-
-#include <iostream>
-
-
 /*
 TODO
-	- swap
-
-
 	EXCEPTION std::out_of_range for instance 
-	RELATIONAL OPERATORS
 */
 
 
@@ -208,11 +199,6 @@ namespace ft
 				_end = end();
 			}
 
-
-			
-
-
-
 			allocator_type get_allocator() const { return _allocator; }
 
 
@@ -224,8 +210,18 @@ namespace ft
 			Access element.
 			Return a reference to the element at position n in the vector
 			*/
-			reference at(size_type n) { return (*(_begin + n)); }
-			const_reference at(size_type n) const { return (*(_begin + n)); }
+			reference at(size_type n) 
+			{	
+				if (!(pos < size()))
+					throw std::out_of_range();
+				return (*(_begin + n));
+			}
+			const_reference at(size_type n) const 
+			{
+				if (!(pos < size()))
+					throw std::out_of_range();
+				return (*(_begin + n));
+			}
 
 			reference operator[](size_type pos) { return (*(_begin + pos)); }
 			const_reference operator[](size_type pos) const { return (*(_begin + pos)); }
@@ -263,6 +259,8 @@ namespace ft
 
 			void reserve(size_type new_cap)
 			{
+				if (new_cap > max_size())
+					throw std::length_error();
 				if (new_cap > _capacity)
 				{
 					pointer new_begin = _allocator.allocate(new_cap);
@@ -465,9 +463,7 @@ namespace ft
 
 	template <class T, class Alloc>
  	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-	{
-		return !(lhs == rhs);
-	}
+	{ return !(lhs == rhs); }
 
 	template <class T, class Alloc>
   	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
@@ -479,21 +475,15 @@ namespace ft
 	
 	template <class T, class Alloc>
  	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-	{
-		return !(rhs < lhs);
-	}
+	{ return !(rhs < lhs); }
 
 	template <class T, class Alloc>
   	bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-	{
-		return rhs < lhs;
-	}
+	{ return rhs < lhs; }
 
 	template <class T, class Alloc>
   	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-	{
-		return !(lhs < rhs);
-	}
+	{ return !(lhs < rhs); }
 }
 
 #endif
