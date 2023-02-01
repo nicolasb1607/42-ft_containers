@@ -89,6 +89,12 @@ int main()
 		}
 		std::cout << "_size = "<< vectest.size() << " _capacity = " << vectest.capacity() << std::endl;
 		
+		vectest.resize(9, 6);
+		for(ft::vector<int>::iterator it = vectest.begin(); it != vectest.end(); it++)
+		{
+			std::cout << "content AFTER Resizing = " << *it << std::endl;
+		}
+		std::cout << "_size = "<< vectest.size() << " _capacity = " << vectest.capacity() << std::endl;
 		vectest.clear();
 
 	return 0;

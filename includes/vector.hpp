@@ -19,8 +19,6 @@
 
 /*
 TODO
-	- operator=
-	- resize
 	- swap
 
 
@@ -401,7 +399,6 @@ namespace ft
 				_end = _begin + _size;
 			}
 
-
 			/*
 			Reduce the size of the vector without changing its capacity, unless the _size
 			*/
@@ -409,18 +406,20 @@ namespace ft
 			{
 				if (n < _size)
 				{
-
+					for(iterator it = _begin + n; it != end(); it++)
+						_allocator.destroy(it);
 				}
 				if (n > _size)
 				{
-
+					while (n > _capacity)
+						_capacity = get_new_cap();
+					reserve(_capacity);
+					for (iterator it = end(); it != end() + (n - _size); it++ )
+						_allocator.construct(it, val);					
 				}
+				_size = n;
 			}
 
-			// void resize( size_type count, T value = T() )
-			// {
-
-			// }
 		};
 
 
