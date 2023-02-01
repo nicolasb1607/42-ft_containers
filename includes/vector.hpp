@@ -20,7 +20,6 @@
 /*
 TODO
 	- assign
-	- insert
 	- operator=
 	- resize
 	- swap
@@ -28,7 +27,6 @@ TODO
 
 	EXCEPTION std::out_of_range for instance 
 	RELATIONAL OPERATORS
-	SWAP VECTOR
 */
 
 
@@ -70,12 +68,17 @@ namespace ft
 				reserve(new_cap);
 			}
 
-			void delete_previous_instance()
+			void destroy_previous_content()
 			{
 				for (size_type n = 0; n < _size; n++)
 				{
 					_allocator.destroy(_begin + n);
 				}
+			}
+
+			void delete_previous_instance()
+			{
+				destroy_previous_content();
 				_allocator.deallocate(_begin, _size);
 			}
 
@@ -152,23 +155,52 @@ namespace ft
 			This causes an automatic reallocation of the allocated storage space if -and only if-
 			the new vector _size surpasses the current vector capacity
 			*/
-			// void assign(size_type n, const value_type& val)
-			// {
-			// 	//Scenario 1 (n >= dst._size && n < dst._capacity)
-			// 	//Replace the content of dst by src content
-				
-			// 	//Scenario 2 (n <= dst._size && n < dst._capacity)
-			// 	//Replace the content of dst by src content
-			// 	//Destroy the rest of dst content
 
-			// 	//Scenario 3 (n >= dst._size && n > dst._capacity)
-			// 	//Create a tmp vector allocate and construct it
-			// 	//Destroy && deallocate dst vector
-			// }
+			template <class InputIterator>
+			void assign(ENABLE_IF(InputIterator) first, InputIterator last)
+			{
+				difference_type range_size = std::distance(first, last);
+				if(range_size > _capacity)
+				{
+					while(range_size > _capacity)
+						_capacity = get_new_cap();
+					pointer new_begin = _allocator.allocate(_capacity);
+					std::copy(first, last, new_begin);
+					delete_previous_instance();
+					_begin = new_begin;	
+				}
+				else
+				{
+					destroy_previous_content();
+					std::copy(first, last, _begin);
+				}
+				_size = range_size;
+				_end = end();
+			}
 
-			// template <class InputIterator>
-			// void assign(InputIterator first, InputIterator last)
-			// {}
+
+			void assign(size_type n, const value_type& val)
+			{
+				if(n > _capacity)
+				{
+					while(n > _capacity)
+						_capacity = get_new_cap();
+					pointer new_begin = _allocator.allocate(_capacity);
+					for (size_type i = 0; i < n; i++)
+						_allocator.construct(new_begin + i, val);
+					delete_previous_instance();
+					_begin = new_begin;
+				}
+				else
+				{
+					destroy_previous_content();
+					for (size_type i = 0; i < n; i++)
+						_allocator.construct(_begin + i, val);
+				}
+				_size = n;
+				_end = end();
+			}
+
 
 			
 
@@ -243,10 +275,7 @@ namespace ft
 
 			void clear()
 			{
-				for (size_type n = 0; n < _size; n++)
-					{
-						_allocator.destroy(_begin + n);
-					}
+				destroy_previous_content();
 				_size = 0;
 				_begin = NULL;
 				_end = NULL;

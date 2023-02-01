@@ -58,21 +58,27 @@ int main()
 		std::cout << "_size = "<< vectest.size() << " _capacity = " << vectest.capacity() << std::endl;
 
 
-		
-
+	
 		ft::vector<int>::iterator pos = vectest.begin();
 		pos += 4;
 		vectest.insert(pos, 4, 42);
 		std::cout << "_size = "<< vectest.size() << " _capacity after insert = " << vectest.capacity() << std::endl;
-
 
 		for(ft::vector<int>::iterator it = vectest.begin(); it != vectest.end(); it++)
 		{
 			std::cout << "content = " << *it << std::endl;
 		}
 		
-		
 		std::cout << "_size after pop = " << vectest.size() << std::endl;
+
+		vectest.assign(3, 10);
+
+		for(ft::vector<int>::iterator it = vectest.begin(); it != vectest.end(); it++)
+		{
+			std::cout << "content AFTER ASSIGN = " << *it << std::endl;
+		}
+		std::cout << "_size = "<< vectest.size() << " _capacity = " << vectest.capacity() << std::endl;
+
 
 		vectest.clear();
 
