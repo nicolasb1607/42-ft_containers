@@ -80,6 +80,15 @@ int main()
 		std::cout << "_size = "<< vectest.size() << " _capacity = " << vectest.capacity() << std::endl;
 
 
+		ft::vector<int> testequal(8,10);
+		vectest = testequal;
+
+		for(ft::vector<int>::iterator it = vectest.begin(); it != vectest.end(); it++)
+		{
+			std::cout << "content AFTER OPERATOR EQUAL = " << *it << std::endl;
+		}
+		std::cout << "_size = "<< vectest.size() << " _capacity = " << vectest.capacity() << std::endl;
+		
 		vectest.clear();
 
 	return 0;

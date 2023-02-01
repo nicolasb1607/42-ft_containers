@@ -3,7 +3,7 @@
 
 # include <iterator_traits.hpp>
 
-#define ENABLE_IF(x) typename ft::enable_if<!(ft::is_integral<x>::value_type), x>::type
+#define ENABLE_IF(x) typename ft::enable_if<!(ft::is_integral<x>::value), x>::type
 
 namespace ft
 {	

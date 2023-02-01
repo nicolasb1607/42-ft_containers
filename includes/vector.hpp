@@ -19,7 +19,6 @@
 
 /*
 TODO
-	- assign
 	- operator=
 	- resize
 	- swap
@@ -156,6 +155,16 @@ namespace ft
 			the new vector _size surpasses the current vector capacity
 			*/
 
+			vector& operator=(const vector& x)
+			{
+				if(this != &x)
+				{
+					this->clear();
+					this->assign(x.begin(), x.end());
+				}
+				return *this;
+			}
+
 			template <class InputIterator>
 			void assign(ENABLE_IF(InputIterator) first, InputIterator last)
 			{
@@ -177,7 +186,6 @@ namespace ft
 				_size = range_size;
 				_end = end();
 			}
-
 
 			void assign(size_type n, const value_type& val)
 			{
@@ -277,8 +285,8 @@ namespace ft
 			{
 				destroy_previous_content();
 				_size = 0;
-				_begin = NULL;
-				_end = NULL;
+				// _begin = NULL;
+				// _end = NULL;
 			}
 
 			//THROW OUT OF RANGE ??????
