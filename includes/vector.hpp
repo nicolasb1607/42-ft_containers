@@ -13,12 +13,6 @@
 # include <equal.hpp>
 # include <utils.hpp>
 
-/*
-TODO
-	EXCEPTION std::out_of_range for instance 
-*/
-
-
 namespace ft
 {
 	template< class T, class Alloc = std::allocator<T> >
@@ -284,9 +278,10 @@ namespace ft
 				_size = 0;
 			}
 
-			//THROW OUT OF RANGE ??????
 			iterator insert(iterator position, const value_type& val)
 			{
+				if (position >= end())
+					throw std::out_of_range();
 				if(_size + 1 > _capacity)
 					_capacity = get_new_cap();				
 				pointer new_begin = _allocator.allocate(_capacity);
@@ -305,6 +300,8 @@ namespace ft
 
 			void insert(iterator position, size_type n, const value_type& val)
 			{
+				if (!(pos < size()))
+					throw std::out_of_range();
 				while (_size + n > _capacity)
 					_capacity = get_new_cap();				
 				pointer new_begin = _allocator.allocate(_capacity);
@@ -325,6 +322,8 @@ namespace ft
 			template <class InputIterator>
 			void insert(iterator position, ENABLE_IF(InputIterator) first, InputIterator last)
 			{
+				if (!(pos < size()))
+					throw std::out_of_range();
 				difference_type range_size = last - first;
 				while (_size + range_size > _capacity)
 					_capacity = get_new_cap();				
@@ -359,7 +358,6 @@ namespace ft
 					return(pos);
 				}
 			}
-
 
 			iterator erase(iterator first, iterator last)
 			{
