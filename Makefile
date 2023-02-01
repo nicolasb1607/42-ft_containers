@@ -76,16 +76,10 @@ fclean : clean clean_exec
 re : fclean 
 	make all $(SILENT)
 
-test_right : all
-	./$(NAME) maps/test.cub
-
-test_wrong : all
-	./$(NAME) maps/testwrong.cub
-
 vtest : all
-	valgrind --leak-check=full ./$(NAME) maps/test.cub
+	valgrind --leak-check=full ./$(NAME)
 
-.PHONY : all clean fclean re compilation completed linking clean_files clean_exec test_right test_wrong vtest
+.PHONY : all clean fclean re compilation completed linking clean_files clean_exec vtest
 
 -include $(DEPENDS)
 

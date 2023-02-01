@@ -152,7 +152,7 @@ namespace ft
 			template <class InputIterator>
 			void assign(ENABLE_IF(InputIterator) first, InputIterator last)
 			{
-				difference_type range_size = std::distance(first, last);
+				size_type range_size = std::distance(first, last);
 				if(range_size > _capacity)
 				{
 					while(range_size > _capacity)
@@ -206,13 +206,13 @@ namespace ft
 			*/
 			reference at(size_type n) 
 			{	
-				if (!(pos < size()))
+				if (!(n < size()))
 					throw std::out_of_range();
 				return (*(_begin + n));
 			}
 			const_reference at(size_type n) const 
 			{
-				if (!(pos < size()))
+				if (!(n < size()))
 					throw std::out_of_range();
 				return (*(_begin + n));
 			}
@@ -254,7 +254,7 @@ namespace ft
 			void reserve(size_type new_cap)
 			{
 				if (new_cap > max_size())
-					throw std::length_error();
+					throw std::length_error("new_cap exceed the maximum size allocation possible");
 				if (new_cap > _capacity)
 				{
 					pointer new_begin = _allocator.allocate(new_cap);
@@ -280,8 +280,6 @@ namespace ft
 
 			iterator insert(iterator position, const value_type& val)
 			{
-				if (position >= end())
-					throw std::out_of_range();
 				if(_size + 1 > _capacity)
 					_capacity = get_new_cap();				
 				pointer new_begin = _allocator.allocate(_capacity);
@@ -300,8 +298,6 @@ namespace ft
 
 			void insert(iterator position, size_type n, const value_type& val)
 			{
-				if (!(pos < size()))
-					throw std::out_of_range();
 				while (_size + n > _capacity)
 					_capacity = get_new_cap();				
 				pointer new_begin = _allocator.allocate(_capacity);
@@ -322,8 +318,6 @@ namespace ft
 			template <class InputIterator>
 			void insert(iterator position, ENABLE_IF(InputIterator) first, InputIterator last)
 			{
-				if (!(pos < size()))
-					throw std::out_of_range();
 				difference_type range_size = last - first;
 				while (_size + range_size > _capacity)
 					_capacity = get_new_cap();				

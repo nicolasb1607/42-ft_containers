@@ -71,31 +71,16 @@ int main()
 		
 		std::cout << "_size after pop = " << vectest.size() << std::endl;
 
-		vectest.assign(3, 10);
+
+		ft::vector<int> testassign(3, 10);
+
+		vectest.assign(testassign.begin(), testassign.end());
 
 		for(ft::vector<int>::iterator it = vectest.begin(); it != vectest.end(); it++)
 		{
 			std::cout << "content AFTER ASSIGN = " << *it << std::endl;
 		}
 		std::cout << "_size = "<< vectest.size() << " _capacity = " << vectest.capacity() << std::endl;
-
-
-		ft::vector<int> testequal(8,10);
-		vectest = testequal;
-
-		for(ft::vector<int>::iterator it = vectest.begin(); it != vectest.end(); it++)
-		{
-			std::cout << "content AFTER OPERATOR EQUAL = " << *it << std::endl;
-		}
-		std::cout << "_size = "<< vectest.size() << " _capacity = " << vectest.capacity() << std::endl;
-		
-		vectest.resize(9, 6);
-		for(ft::vector<int>::iterator it = vectest.begin(); it != vectest.end(); it++)
-		{
-			std::cout << "content AFTER Resizing = " << *it << std::endl;
-		}
-		std::cout << "_size = "<< vectest.size() << " _capacity = " << vectest.capacity() << std::endl;
-		vectest.clear();
 
 	return 0;
 }
