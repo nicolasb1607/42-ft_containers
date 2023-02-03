@@ -13,7 +13,6 @@ TODO:
 	- constructor
 	- destructor
 	- operator=
-	- get_allocator
 	- at
 	- oprator[]
 	- begin
@@ -70,7 +69,7 @@ namespace ft
 				}
 		}
 
-		protected :
+		public :
 			typedef Key															key_type;
 			typedef T															mapped_type;
 			typedef ft::pair<const Key, T>										value_type;
@@ -88,8 +87,12 @@ namespace ft
 			typedef typename iterator_traits<iterator>::difference_type			difference_type;
 			typedef std::size_t													size_type;
 
-		public :
+		protected :
+			allocator_type	_allocator;
 
+
+
+		public :
 		/*-----------------------------------------------------------------------------------
 		|																					|
 		|								CONSTRUCTOR	/ DESTRUCTOR							|
@@ -122,6 +125,11 @@ namespace ft
 			{
 				
 			}
+
+			allocator_type get_allocator() const
+			{ return _allocator; }
+
+
 
 
 		/*-----------------------------------------------------------------------------------
