@@ -1,86 +1,77 @@
+#include "vector.hpp"
 #include <iostream>
-#include <cstring>
 
 
-#include <vector.hpp>
-#include <vector>
+#define TESTED_TYPE int
+#define TESTED_NAMESPACE ft
+#define T_SIZE_TYPE typename TESTED_NAMESPACE::vector<T>::size_type
 
-using namespace std;
 
-int main()
+
+template <typename T>
+void	printSize(TESTED_NAMESPACE::vector<T> const &vct, bool print_content = true)
 {
-	/*----------------------------------------TEST CONSTRUTOR------------------------------------*/
+	const T_SIZE_TYPE size = vct.size();
+	const T_SIZE_TYPE capacity = vct.capacity();
+	const std::string isCapacityOk = (capacity >= size) ? "OK" : "KO";
+	// Cannot limit capacity's max value because it's implementation dependent
 
-	// DEFAULT		
-		//STL
-		// vector<int> realstl(std::allocator<int>);
-		// cout << realstl.capacity() << endl;
+	std::cout << "size: " << size << std::endl;
+	std::cout << "capacity: " << isCapacityOk << std::endl;
+	std::cout << "max_size: " << vct.max_size() << std::endl;
+	if (print_content)
+	{
+		typename TESTED_NAMESPACE::vector<T>::const_iterator it = vct.begin();
+		typename TESTED_NAMESPACE::vector<T>::const_iterator ite = vct.end();
+		std::cout << std::endl << "Content is:" << std::endl;
+		for (; it != ite; ++it)
+			std::cout << "- " << *it << std::endl;
+	}
+	std::cout << "###############################################" << std::endl;
+}
 
-		// FT
-		// ft::vector<int> vectest(std::allocator<int>);
-		// cout << vectest.capacity() << endl;
+int		main(void)
+{
+	TESTED_NAMESPACE::vector<TESTED_TYPE> vct(7);
+	TESTED_NAMESPACE::vector<TESTED_TYPE> vct_two(4);
+	TESTED_NAMESPACE::vector<TESTED_TYPE> vct_three;
+	TESTED_NAMESPACE::vector<TESTED_TYPE> vct_four;
 
-	//FILL CONSTRUCTOR
-		//STL
-		// vector<int> realstl(3, 9);
-		// cout << "STL = " << realstl.capacity() << " content a position 3 = "<< realstl.at(2) << endl;
-		// if (realstl.empty())
-		// 	cout << "IS EMPTY" << endl;
-		// else
-		// 	cout << "NOT EMPTY" << endl;
+	for (unsigned long int i = 0; i < vct.size(); ++i)
+		vct[i] = (vct.size() - i) * 3;
+	for (unsigned long int i = 0; i < vct_two.size(); ++i)
+		vct_two[i] = (vct_two.size() - i) * 5;
+	printSize(vct);
+	printSize(vct_two);
 
+	std::cout << "\t### After printSIZE: ###" << std::endl;
 
+	vct_three.assign(vct.begin(), vct.end());
+	std::cout << "\t### After assign 1: ###" << std::endl;
+	vct.assign(vct_two.begin(), vct_two.end());
+	std::cout << "\t### After assign 2: ###" << std::endl;
+	vct_two.assign(2, 42);
+	std::cout << "\t### After assign 3: ###" << std::endl;
+	vct_four.assign(4, 21);
+	std::cout << "\t### After assign 4: ###" << std::endl;
 
+	std::cout << "\t### After assign(): ###" << std::endl;
 
-		// //FT
-		ft::vector<int> vectest(3, 9);
-		// cout << "FT = " << vectest.capacity() << " content a position 3 = "<< vectest.at(2) << endl;
-		// if (vectest.empty())
-		// 	cout << "IS EMPTY" << endl;
-		// else
-		// 	cout << "NOT EMPTY" << endl;
+	printSize(vct);
+	printSize(vct_two);
+	printSize(vct_three);
+	printSize(vct_four);
 
-		// cout << "Max Size = " << vectest.max_size() << endl;
+	vct_four.assign(6, 84);
+	printSize(vct_four);
 
-		// ft::vector<int> copyconstructvec(vectest);
-		// cout << "COPY CONSTRUC = " << copyconstructvec.capacity() << endl;
+	std::cout << "\t### assign() on enough capacity and low size: ###" << std::endl;
 
-		std::cout << "_size = "<< vectest.size() << " _capacity = " << vectest.capacity() << std::endl;
-		vectest.push_back(5);
-		std::cout << "_size = "<< vectest.size() << " _capacity = " << vectest.capacity() << std::endl;
-		vectest.push_back(7);
-		std::cout << "_size = "<< vectest.size() << " _capacity = " << vectest.capacity() << std::endl;
-		vectest.push_back(8);
-		std::cout << "_size = "<< vectest.size() << " _capacity = " << vectest.capacity() << std::endl;
-		vectest.push_back(45);
-		std::cout << "_size = "<< vectest.size() << " _capacity = " << vectest.capacity() << std::endl;
-		vectest.push_back(12);
-		std::cout << "_size = "<< vectest.size() << " _capacity = " << vectest.capacity() << std::endl;
+	vct.assign(5, 53);
+	vct_two.assign(vct_three.begin(), vct_three.begin() + 3);
 
+	printSize(vct);
+	printSize(vct_two);
 
-	
-		ft::vector<int>::iterator pos = vectest.begin();
-		pos += 4;
-		vectest.insert(pos, 4, 42);
-		std::cout << "_size = "<< vectest.size() << " _capacity after insert = " << vectest.capacity() << std::endl;
-
-		for(ft::vector<int>::iterator it = vectest.begin(); it != vectest.end(); it++)
-		{
-			std::cout << "content = " << *it << std::endl;
-		}
-		
-		std::cout << "_size after pop = " << vectest.size() << std::endl;
-
-
-		ft::vector<int> testassign(3, 10);
-
-		vectest.assign(testassign.begin(), testassign.end());
-
-		for(ft::vector<int>::iterator it = vectest.begin(); it != vectest.end(); it++)
-		{
-			std::cout << "content AFTER ASSIGN = " << *it << std::endl;
-		}
-		std::cout << "_size = "<< vectest.size() << " _capacity = " << vectest.capacity() << std::endl;
-
-	return 0;
+	return (0);
 }

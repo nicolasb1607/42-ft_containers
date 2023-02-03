@@ -26,7 +26,7 @@ namespace ft
 			typedef typename Alloc::pointer										pointer;
 			typedef typename Alloc::const_pointer								const_pointer;
 			typedef T*															iterator;
-			typedef const iterator												const_iterator;
+			typedef const T*													const_iterator;
 			typedef ft::reverse_iterator<iterator>								reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>						const_reverse_iterator;
 			typedef	typename ft::iterator_traits<iterator>::difference_type		difference_type;
@@ -76,7 +76,10 @@ namespace ft
 			// Default Constructor
 			explicit vector(const allocator_type& alloc = allocator_type())
 			: _allocator(alloc), _begin(NULL), _end(NULL), _size(0), _capacity(0)
-			{ _begin = _allocator.allocate(1); }
+			{ 
+				_begin = _allocator.allocate(1);
+				_end = _begin;
+			 }
 
 
 			// Fill Constructor
@@ -207,13 +210,13 @@ namespace ft
 			reference at(size_type n) 
 			{	
 				if (!(n < size()))
-					throw std::out_of_range();
+					throw std::out_of_range("Cannot access the value");
 				return (*(_begin + n));
 			}
 			const_reference at(size_type n) const 
 			{
 				if (!(n < size()))
-					throw std::out_of_range();
+					throw std::out_of_range("Cannot access the value");
 				return (*(_begin + n));
 			}
 
@@ -425,7 +428,7 @@ namespace ft
 				this->_end = other._end;
 				other._end = tmp_ptr;
 
-				tmp_size = this->size;
+				tmp_size = this->_size;
 				this->_size = other._size;
 				other._size = tmp_size;
 
