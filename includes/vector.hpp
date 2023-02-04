@@ -101,14 +101,15 @@ namespace ft
 					const allocator_type& alloc = allocator_type())
 			: _allocator(alloc), _begin(NULL), _end(NULL)
 			{
-				_size = std::distance(first, last);
+				difference_type nb = std::distance(first, last);
 				_capacity = _size;
 				_begin = _allocator.allocate(_size);
 				_end = _begin + _size;
-				for (difference_type i = 0; first != _end; first++, i++)
+				for (difference_type i = 0; i < nb; first++, i++)
 				{
 					_allocator.construct(_begin + i, *first);
 				}
+				_size = nb;
 			}
 
 			//Copy Constructor
@@ -290,7 +291,7 @@ namespace ft
 				if(_capacity == 0)
 					_capacity = 1;
 				if(_size + 1 > _capacity)
-					_capacity = get_new_cap();				
+					_capacity = get_new_cap();
 				pointer new_begin = _allocator.allocate(_capacity);
 				iterator old_it = _begin;
 				iterator new_it = new_begin;
@@ -303,6 +304,7 @@ namespace ft
 				_size++;
 				_begin = new_begin;
 				_end = end();
+				return (old_it);
 			}
 
 			void insert(iterator position, size_type n, const value_type& val)
@@ -331,7 +333,7 @@ namespace ft
 			{
 				if(_capacity == 0)
 					_capacity = 1;
-				difference_type range_size = last - first;
+				difference_type range_size = std::distance(first, last);
 				while (_size + range_size > _capacity)
 					_capacity = get_new_cap();				
 				pointer new_begin = _allocator.allocate(_capacity);

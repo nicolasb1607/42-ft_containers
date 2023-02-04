@@ -1,11 +1,13 @@
-#include "vector.hpp"
+// # include "vector.hpp"
+// #else
+# include <vector>
+// #endif /* !defined(STD) */
+
 #include <iostream>
 
-
+#define TESTED_NAMESPACE std
 #define TESTED_TYPE int
-#define TESTED_NAMESPACE ft
 #define T_SIZE_TYPE typename TESTED_NAMESPACE::vector<T>::size_type
-
 
 
 template <typename T>
@@ -30,48 +32,57 @@ void	printSize(TESTED_NAMESPACE::vector<T> const &vct, bool print_content = true
 	std::cout << "###############################################" << std::endl;
 }
 
+
+/*
+single element (1)
+	iterator insert (iterator position, const value_type& val);
+
+fill (2)
+    void insert (iterator position, size_type n, const value_type& val);
+
+range (3)
+	template <class InputIterator>
+		void insert (iterator position, InputIterator first, InputIterator last);
+*/
+
+
+
 int		main(void)
 {
-	TESTED_NAMESPACE::vector<TESTED_TYPE> vct(7);
-	TESTED_NAMESPACE::vector<TESTED_TYPE> vct_two(4);
-	TESTED_NAMESPACE::vector<TESTED_TYPE> vct_three;
-	TESTED_NAMESPACE::vector<TESTED_TYPE> vct_four;
+	TESTED_NAMESPACE::vector<TESTED_TYPE> vct(10);
+	TESTED_NAMESPACE::vector<TESTED_TYPE> vct2;
+	TESTED_NAMESPACE::vector<TESTED_TYPE> vct3;
 
 	for (unsigned long int i = 0; i < vct.size(); ++i)
 		vct[i] = (vct.size() - i) * 3;
-	for (unsigned long int i = 0; i < vct_two.size(); ++i)
-		vct_two[i] = (vct_two.size() - i) * 5;
 	printSize(vct);
-	printSize(vct_two);
 
-	std::cout << "\t### After printSIZE: ###" << std::endl;
+	std::cout << "INSERT 1" << std::endl;
+	vct2.insert(vct2.end(), 42);
+	std::cout << "INSERT 2" << std::endl;
+	vct2.insert(vct2.begin(), 2, 21);
+	std::cout << "INSERT 3" << std::endl;
+	printSize(vct2);
 
-	vct_three.assign(vct.begin(), vct.end());
-	std::cout << "\t### After assign 1: ###" << std::endl;
-	vct.assign(vct_two.begin(), vct_two.end());
-	std::cout << "\t### After assign 2: ###" << std::endl;
-	vct_two.assign(2, 42);
-	std::cout << "\t### After assign 3: ###" << std::endl;
-	vct_four.assign(4, 21);
-	std::cout << "\t### After assign 4: ###" << std::endl;
+	vct2.insert(vct2.end() - 2, 42);
+	printSize(vct2);
 
-	std::cout << "\t### After assign(): ###" << std::endl;
+	vct2.insert(vct2.end(), 2, 84);
+	printSize(vct2);
 
-	printSize(vct);
-	printSize(vct_two);
-	printSize(vct_three);
-	printSize(vct_four);
+	vct2.resize(4);
+	printSize(vct2);
 
-	vct_four.assign(6, 84);
-	printSize(vct_four);
-
-	std::cout << "\t### assign() on enough capacity and low size: ###" << std::endl;
-
-	vct.assign(5, 53);
-	vct_two.assign(vct_three.begin(), vct_three.begin() + 3);
+	vct2.insert(vct2.begin() + 2, vct.begin(), vct.end());
+	vct.clear();
+	printSize(vct2);
 
 	printSize(vct);
-	printSize(vct_two);
+
+	for (int i = 0; i < 5; ++i)
+		vct3.insert(vct3.end(), i);
+	vct3.insert(vct3.begin() + 1, 2, 111);
+	printSize(vct3);
 
 	return (0);
 }
