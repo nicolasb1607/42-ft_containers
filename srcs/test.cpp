@@ -1,11 +1,12 @@
-// # include "vector.hpp"
+# include "vector.hpp"
 // #else
-# include <vector>
+// # include <vector>
 // #endif /* !defined(STD) */
 
 #include <iostream>
 
-#define TESTED_NAMESPACE std
+#define TESTED_NAMESPACE ft
+// #define TESTED_NAMESPACE std
 #define TESTED_TYPE int
 #define T_SIZE_TYPE typename TESTED_NAMESPACE::vector<T>::size_type
 
@@ -59,30 +60,34 @@ int		main(void)
 
 	std::cout << "INSERT 1" << std::endl;
 	vct2.insert(vct2.end(), 42);
-	std::cout << "INSERT 2" << std::endl;
-	vct2.insert(vct2.begin(), 2, 21);
-	std::cout << "INSERT 3" << std::endl;
+	
 	printSize(vct2);
+	std::cout << "INSERT 2" << std::endl;
+	vct2.insert(vct2.begin(), 20, 21);
+	printSize(vct2);
+	std::cout << vct2.begin() << std::endl;
+	std::cout << "INSERT 3" << std::endl;
+
 
 	vct2.insert(vct2.end() - 2, 42);
 	printSize(vct2);
 
-	vct2.insert(vct2.end(), 2, 84);
-	printSize(vct2);
+	// vct2.insert(vct2.end(), 2, 84);
+	// printSize(vct2);
 
-	vct2.resize(4);
-	printSize(vct2);
+	// vct2.resize(4);
 
-	vct2.insert(vct2.begin() + 2, vct.begin(), vct.end());
-	vct.clear();
-	printSize(vct2);
+	// vct2.insert(vct2.begin() + 2, vct.begin(), vct.end());
+	// printSize(vct2);
+	// vct.clear();
+	// printSize(vct2);
 
-	printSize(vct);
+	// printSize(vct);
 
-	for (int i = 0; i < 5; ++i)
-		vct3.insert(vct3.end(), i);
-	vct3.insert(vct3.begin() + 1, 2, 111);
-	printSize(vct3);
+	// for (int i = 0; i < 5; ++i)
+	// 	vct3.insert(vct3.end(), i);
+	// vct3.insert(vct3.begin() + 1, 2, 111);
+	// printSize(vct3);
 
 	return (0);
 }

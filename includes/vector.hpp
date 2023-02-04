@@ -13,6 +13,8 @@
 # include <equal.hpp>
 # include <utils.hpp>
 
+#include <iostream>
+
 namespace ft
 {
 	template< class T, class Alloc = std::allocator<T> >
@@ -288,67 +290,84 @@ namespace ft
 
 			iterator insert(iterator position, const value_type& val)
 			{
+				size_type i = 0;
 				if(_capacity == 0)
 					_capacity = 1;
-				if(_size + 1 > _capacity)
+				while(_size + 1 > _capacity)
 					_capacity = get_new_cap();
-				pointer new_begin = _allocator.allocate(_capacity);
-				iterator old_it = _begin;
-				iterator new_it = new_begin;
-				new_it = std::copy(old_it, position - 1, new_it);
-				_allocator.construct(new_it, val);
-				while (old_it != position - 1)
-					old_it++;
-				std::copy(old_it, _end, ++new_it);
-				delete_previous_instance();
+				for(iterator it = begin(); it != position; it++)
+					i++;
+				reserve(_capacity);
+				for (size_type pos = _size; pos > i ; pos--)
+				{
+					_allocator.construct(_begin + pos, *(_begin + pos - 1));
+					_allocator.destroy(_begin + pos - 1);
+				}
+				_allocator.construct(_begin + i, val);
 				_size++;
-				_begin = new_begin;
 				_end = end();
-				return (old_it);
+				return(_begin + i);
 			}
 
 			void insert(iterator position, size_type n, const value_type& val)
-			{
+			{	
+				int i = 0;
+				for(iterator it = begin(); it != position; it++)
+					i++;
+				std::cout << "##########################################################################" << i << std::endl;
 				if(_capacity == 0)
 					_capacity = 1;
-				while (_size + n > _capacity)
-					_capacity = get_new_cap();				
-				pointer new_begin = _allocator.allocate(_capacity);
-				iterator old_it = _begin;
-				iterator new_it = new_begin;
-				new_it = std::copy(old_it, position - 1, new_it);
-				for (size_type i = 0; i < n; i++ )
-					_allocator.construct(new_it + i, val);
-				while (old_it != position - 1)
-					old_it++;
-				std::copy(old_it, _end, new_it + n);
-				delete_previous_instance();
+				while(_size + n > _capacity)
+					_capacity = get_new_cap();
+				reserve(_capacity);
+
+
+
+
+
+
+				std::cout << i << "    " << _size - 1 << std::endl;
+				std::cout << _begin << std::endl;
+				int truc = 0;
+				for (int pos = _size - 1; pos >= i; pos--)
+				{
+					std::cout << "salut je deplace " << pos << " ici " << pos + n << std::endl;
+					std::cout << i << std::endl;
+					if (truc)
+						exit(0);
+					_allocator.construct(_begin + pos + n , *(_begin + pos));
+					_allocator.destroy(_begin + pos);
+					truc = 1;
+				}
+				for (size_type pos = i; pos < i + n; pos++)
+				{
+					std::cout << pos << std::endl;
+					_allocator.construct(_begin + pos, val);
+				}
 				_size += n;
-				_begin = new_begin;
 				_end = end();
 			}
 
 			template <class InputIterator>
 			void insert(iterator position, ENABLE_IF(InputIterator) first, InputIterator last)
 			{
+				size_type i = 0;
+				difference_type n = std::distance(first, last);
+				for(iterator it = begin(); it != position; it++)
+					i++;
 				if(_capacity == 0)
 					_capacity = 1;
-				difference_type range_size = std::distance(first, last);
-				while (_size + range_size > _capacity)
-					_capacity = get_new_cap();				
-				pointer new_begin = _allocator.allocate(_capacity);
-				iterator old_it = _begin;
-				iterator new_it = new_begin;
-				new_it = std::copy(old_it, position - 1, new_it);
-				std::copy(first, last, new_it);
-				while (old_it != position - 1)
-					old_it++;
-				std::copy(old_it, _end, new_it + range_size);
-				delete_previous_instance();
-				_size += range_size;
-				_begin = new_begin;
+				while(_size + n > _capacity)
+					_capacity = get_new_cap();
+				reserve(_capacity);
+				for (size_type pos = _size; pos > i; pos--)
+				{
+					_allocator.construct(_begin + pos + n, *(_begin + pos + n - 1));
+					_allocator.destroy(_begin + pos + n - 1);
+				}
+				std::copy(first, last, _begin + i);
+				_size += n;
 				_end = end();
-
 			}
 
 			iterator erase(iterator pos)
