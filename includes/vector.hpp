@@ -156,6 +156,8 @@ namespace ft
 			void assign(ENABLE_IF(InputIterator) first, InputIterator last)
 			{
 				size_type range_size = std::distance(first, last);
+				if(_capacity == 0)
+					_capacity = 1;
 				if(range_size > _capacity)
 				{
 					while(range_size > _capacity)
@@ -176,6 +178,8 @@ namespace ft
 
 			void assign(size_type n, const value_type& val)
 			{
+				if(_capacity == 0)
+					_capacity = 1;
 				if(n > _capacity)
 				{
 					while(n > _capacity)
@@ -283,6 +287,8 @@ namespace ft
 
 			iterator insert(iterator position, const value_type& val)
 			{
+				if(_capacity == 0)
+					_capacity = 1;
 				if(_size + 1 > _capacity)
 					_capacity = get_new_cap();				
 				pointer new_begin = _allocator.allocate(_capacity);
@@ -301,6 +307,8 @@ namespace ft
 
 			void insert(iterator position, size_type n, const value_type& val)
 			{
+				if(_capacity == 0)
+					_capacity = 1;
 				while (_size + n > _capacity)
 					_capacity = get_new_cap();				
 				pointer new_begin = _allocator.allocate(_capacity);
@@ -321,6 +329,8 @@ namespace ft
 			template <class InputIterator>
 			void insert(iterator position, ENABLE_IF(InputIterator) first, InputIterator last)
 			{
+				if(_capacity == 0)
+					_capacity = 1;
 				difference_type range_size = last - first;
 				while (_size + range_size > _capacity)
 					_capacity = get_new_cap();				
@@ -375,6 +385,8 @@ namespace ft
 
 			void push_back(const T& value)
 			{
+				if(_capacity == 0)
+					_capacity = 1;
 				if (_size + 1 > _capacity)
 				{
 					grow();
@@ -405,6 +417,8 @@ namespace ft
 				}
 				if (n > _size)
 				{
+					if(_capacity == 0)
+					_capacity = 1;
 					while (n > _capacity)
 						_capacity = get_new_cap();
 					reserve(_capacity);
