@@ -321,22 +321,15 @@ namespace ft
 			template <class InputIterator>
 			void insert(iterator position, ENABLE_IF(InputIterator) first, InputIterator last)
 			{
-				size_type i = 0;
-				difference_type n = std::distance(first, last);
-				for(iterator it = begin(); it != position; it++)
-					i++;
+				difference_type i = 0;
+				size_type	range_size = std::distance(first, last);
+				difference_type new_beg = position - begin();
 				if(_capacity == 0)
 					_capacity = 1;
-				while(_size + n > _capacity)
+				while (_size + range_size > _capacity)
 					reserve(_capacity * 2);
-				for (size_type pos = _size; pos > i; pos--)
-				{
-					_allocator.construct(_begin + pos + n, *(_begin + pos + n - 1));
-					_allocator.destroy(_begin + pos + n - 1);
-				}
-				std::copy(first, last, _begin + i);
-				_size += n;
-				_end = end();
+				while (last != first)
+					insert(begin() + new_beg + i++, *first++);
 			}
 
 			iterator erase(iterator pos)
