@@ -66,7 +66,7 @@ namespace	ft {
 			reverse_iterator	operator--(int) { reverse_iterator tmp = *this; ++_current; return tmp; }
 			
 			// Array subscription
-			reference			operator[](difference_type n) const { return *(*this - 1 + n); }
+			reference			operator[](difference_type n) const { return *(_current - n - 1); }
 
 			reverse_iterator	operator+(difference_type n) const { return (reverse_iterator(_current - n)); }
 			reverse_iterator& 	operator+=(difference_type n) { _current -= n; return (*this); }

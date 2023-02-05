@@ -45,16 +45,17 @@ namespace ft
 
 			void destroy_previous_content()
 			{
-				for (size_type n = 0; n < _size; n++)
+				if (_capacity)
 				{
-					_allocator.destroy(_begin + n);
+					for (size_type n = 0; n < _size; n++)
+						_allocator.destroy(_begin + n);
 				}
 			}
 
 			void delete_previous_instance()
 			{
 				destroy_previous_content();
-				_allocator.deallocate(_begin, _size);
+				_allocator.deallocate(_begin, _capacity);
 			}
 
 		public :
@@ -232,11 +233,11 @@ namespace ft
 			iterator end() { return _begin + _size; }
 			const_iterator end() const { return _begin + _size; }
 
-			reverse_iterator rbegin() { return reverse_iterator(begin()); }
-			const_reverse_iterator rbegin() const { return const_reverse_iterator(begin()); }
+			reverse_iterator rbegin() { return reverse_iterator(end()); }
+			const_reverse_iterator rbegin() const { return const_reverse_iterator(end()); }
 
-			reverse_iterator rend() { return reverse_iterator(end()); }
-			const_reverse_iterator rend() const { return const_reverse_iterator(end()); }
+			reverse_iterator rend() { return reverse_iterator(begin()); }
+			const_reverse_iterator rend() const { return const_reverse_iterator(begin()); }
 
 			/*-----------------------------------------------------------------------------------
 			|									CAPACITY										|

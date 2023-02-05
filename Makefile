@@ -5,8 +5,8 @@ NAME = ft_containers
 ################################################################################
 
 CC		= c++
-CFLAGS	= -Wall -Wextra -MD -std=c++98
-LDFLAGS	= -Wall -Wextra -Werror -std=c++98
+CFLAGS	= -Wall -Wextra -MD -std=c++98  -fsanitize=address -g3
+LDFLAGS	= -Wall -Wextra -Werror -std=c++98 -fsanitize=address -g3
 SILENT	= --no-print-directory
 
 ################################################################################
