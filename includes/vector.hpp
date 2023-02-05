@@ -13,6 +13,8 @@
 # include <equal.hpp>
 # include <utils.hpp>
 
+
+//DEBUG
 #include <iostream>
 
 namespace ft
@@ -92,6 +94,7 @@ namespace ft
 			: _allocator(alloc), _begin(NULL), _end(NULL)
 			{
 				difference_type nb = std::distance(first, last);
+				_size = nb;
 				_capacity = _size;
 				_begin = _allocator.allocate(_size);
 				_end = _begin + _size;
@@ -99,7 +102,6 @@ namespace ft
 				{
 					_allocator.construct(_begin + i, *first);
 				}
-				_size = nb;
 			}
 
 			//Copy Constructor
@@ -334,11 +336,11 @@ namespace ft
 
 			iterator erase(iterator pos)
 			{
-				if (pos == _end)
+				if (pos == end())
 					return (end());
 				else
 				{
-					for(iterator tmp = pos ; tmp != end(); tmp++)
+					for(iterator tmp = pos ; tmp != end() - 1 ; tmp++)
 					{
 						_allocator.destroy(tmp);
 						_allocator.construct(tmp, *(tmp + 1));
