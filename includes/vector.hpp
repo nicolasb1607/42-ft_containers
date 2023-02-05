@@ -41,18 +41,6 @@ namespace ft
 			size_type		_size;
 			size_type		_capacity;
 
-
-			inline int get_new_cap()
-			{
-				return (_capacity == 0) ? _capacity:(_capacity * 2);
-			}
-
-			void grow()
-			{
-				int new_cap = get_new_cap();
-				reserve(new_cap);
-			}
-
 			void destroy_previous_content()
 			{
 				for (size_type n = 0; n < _size; n++)
@@ -164,7 +152,7 @@ namespace ft
 				if(range_size > _capacity)
 				{
 					while(range_size > _capacity)
-						_capacity = get_new_cap();
+						reserve(_capacity * 2);
 					pointer new_begin = _allocator.allocate(_capacity);
 					std::copy(first, last, new_begin);
 					delete_previous_instance();
@@ -185,8 +173,8 @@ namespace ft
 					_capacity = 1;
 				if(n > _capacity)
 				{
-					while(n > _capacity)
-						_capacity = get_new_cap();
+					while (n > _capacity)
+						reserve(_capacity * 2);					
 					pointer new_begin = _allocator.allocate(_capacity);
 					for (size_type i = 0; i < n; i++)
 						_allocator.construct(new_begin + i, val);
@@ -293,11 +281,10 @@ namespace ft
 				size_type i = 0;
 				if(_capacity == 0)
 					_capacity = 1;
-				while(_size + 1 > _capacity)
-					_capacity = get_new_cap();
 				for(iterator it = begin(); it != position; it++)
 					i++;
-				reserve(_capacity);
+				if(_size + 1 > _capacity)
+					reserve(_capacity * 2);
 				for (size_type pos = _size; pos > i ; pos--)
 				{
 					_allocator.construct(_begin + pos, *(_begin + pos - 1));
@@ -311,41 +298,24 @@ namespace ft
 
 			void insert(iterator position, size_type n, const value_type& val)
 			{	
-				int i = 0;
-				for(iterator it = begin(); it != position; it++)
-					i++;
-				std::cout << "##########################################################################" << i << std::endl;
+				iterator	it = begin();
+				size_type	i = 0;
 				if(_capacity == 0)
 					_capacity = 1;
-				while(_size + n > _capacity)
-					_capacity = get_new_cap();
-				reserve(_capacity);
-
-
-
-
-
-
-				std::cout << i << "    " << _size - 1 << std::endl;
-				std::cout << _begin << std::endl;
-				int truc = 0;
-				for (int pos = _size - 1; pos >= i; pos--)
+				if (n == 0)
+					return ;
+				while (it++ != position)
+					i++;
+				while (_size + n > _capacity)
+					reserve(_capacity * 2);
+				for (size_type pos = _size; pos > i; pos--)
 				{
-					std::cout << "salut je deplace " << pos << " ici " << pos + n << std::endl;
-					std::cout << i << std::endl;
-					if (truc)
-						exit(0);
-					_allocator.construct(_begin + pos + n , *(_begin + pos));
-					_allocator.destroy(_begin + pos);
-					truc = 1;
+					_allocator.construct(_begin + (pos + n - 1), *(_begin + pos - 1));
+					_allocator.destroy(_begin + (pos - 1));
 				}
 				for (size_type pos = i; pos < i + n; pos++)
-				{
-					std::cout << pos << std::endl;
 					_allocator.construct(_begin + pos, val);
-				}
 				_size += n;
-				_end = end();
 			}
 
 			template <class InputIterator>
@@ -358,8 +328,7 @@ namespace ft
 				if(_capacity == 0)
 					_capacity = 1;
 				while(_size + n > _capacity)
-					_capacity = get_new_cap();
-				reserve(_capacity);
+					reserve(_capacity * 2);
 				for (size_type pos = _size; pos > i; pos--)
 				{
 					_allocator.construct(_begin + pos + n, *(_begin + pos + n - 1));
@@ -410,7 +379,7 @@ namespace ft
 					_capacity = 1;
 				if (_size + 1 > _capacity)
 				{
-					grow();
+					reserve(_capacity * 2);
 					_allocator.construct(_end, value);
 				}
 				else
@@ -441,8 +410,7 @@ namespace ft
 					if(_capacity == 0)
 					_capacity = 1;
 					while (n > _capacity)
-						_capacity = get_new_cap();
-					reserve(_capacity);
+						reserve(_capacity * 2);
 					for (iterator it = end(); it != end() + (n - _size); it++ )
 						_allocator.construct(it, val);					
 				}
