@@ -100,12 +100,12 @@ namespace	ft {
 	template<typename Iterator1, typename Iterator2>
 	inline bool
 	operator>(const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs)
-	{ return !(lhs < rhs); }
+	{ return rhs < lhs; }
 	
 	template<typename Iterator1, typename Iterator2>
 	inline bool
 	operator>=(const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs)
-	{ return !(rhs < lhs); }
+	{ return !(lhs < rhs); }
 
 	template< class Iterator1, class Iterator2>
 	inline typename reverse_iterator<Iterator1>::difference_type operator-( const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs )
