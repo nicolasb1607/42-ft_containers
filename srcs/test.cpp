@@ -8,7 +8,7 @@
 
 #define TESTED_NAMESPACE ft
 // #define TESTED_NAMESPACE std
-#define TESTED_TYPE std::string
+#define TESTED_TYPE int
 #define T_SIZE_TYPE typename TESTED_NAMESPACE::vector<T>::size_type
 
 
@@ -55,40 +55,54 @@ void	checkErase(TESTED_NAMESPACE::vector<TESTED_TYPE> const &vct,
 	printSize(vct);
 }
 
+template <class T, class Alloc>
+void	cmp(const TESTED_NAMESPACE::vector<T, Alloc> &lhs, const TESTED_NAMESPACE::vector<T, Alloc> &rhs)
+{
+	static int i = 0;
+
+	std::cout << "############### [" << i++ << "] ###############"  << std::endl;
+	std::cout << "eq: " << (lhs == rhs) << " | ne: " << (lhs != rhs) << std::endl;
+	std::cout << "lt: " << (lhs <  rhs) << " | le: " << (lhs <= rhs) << std::endl;
+	std::cout << "gt: " << (lhs >  rhs) << " | ge: " << (lhs >= rhs) << std::endl;
+}
+
+void	is_empty(TESTED_NAMESPACE::vector<TESTED_TYPE> const &vct)
+{
+	std::cout << "is_empty: " << vct.empty() << std::endl;
+}
+
 int		main(void)
 {
-	TESTED_NAMESPACE::vector<TESTED_TYPE> vct(10);
+	const int size = 5;
+	TESTED_NAMESPACE::vector<TESTED_TYPE> vct(size);
+	TESTED_NAMESPACE::vector<TESTED_TYPE>::reverse_iterator it = vct.rbegin();
+	TESTED_NAMESPACE::vector<TESTED_TYPE>::const_reverse_iterator ite = vct.rbegin();
 
-	for (unsigned long int i = 0; i < vct.size(); ++i)
-		vct[i] = std::string((vct.size() - i), i + 65);
-	printSize(vct);
+	for (int i = 0; i < size; ++i)
+		it[i] = (size - i) * 5;
 
-	std::cout << " Ici 1" << std::endl;
 
-	checkErase(vct, vct.erase(vct.begin() + 2));
-	// std::cout << " Ici 2" << std::endl;
+	std::cout << "ici 1" << std::endl;
+	it = it + 5;
+	std::cout << "ici 2" << std::endl;
+	it = 1 + it;
+	std::cout << "ici 3" << std::endl;
+	it = it - 4;
+	std::cout << "ici 4" << std::endl;
+	std::cout << *(it += 2) << std::endl;
+	std::cout << "ici 5" << std::endl;
+	std::cout << *(it -= 1) << std::endl;
+	std::cout << "ici 6" << std::endl;
 
-	// checkErase(vct, vct.erase(vct.begin()));
-	// std::cout << " Ici 3" << std::endl;
-	// checkErase(vct, vct.erase(vct.end() - 1));
-	// std::cout << " Ici 4" << std::endl;
+	*(it -= 2) = 42;
+	*(it += 2) = 21;
 
-	// checkErase(vct, vct.erase(vct.begin(), vct.begin() + 3));
-	// std::cout << " Ici 5" << std::endl;
-	// checkErase(vct, vct.erase(vct.end() - 3, vct.end() - 1));
-	// std::cout << " Ici 6" << std::endl;
+	std::cout << "const_ite +=/-=: " << *(ite += 2) << " | " << *(ite -= 2) << std::endl;
 
-	// vct.push_back("Hello");
-	// vct.push_back("Hi there");
-	// printSize(vct);
-	// checkErase(vct, vct.erase(vct.end() - 3, vct.end()));
+	std::cout << "(it == const_it): " << (ite == it) << std::endl;
+	std::cout << "(const_ite - it): " << (ite - it) << std::endl;
+	std::cout << "(ite + 3 == it): " << (ite + 3 == it) << std::endl;
 
-	// vct.push_back("ONE");
-	// vct.push_back("TWO");
-	// vct.push_back("THREE");
-	// vct.push_back("FOUR");
-	// printSize(vct);
-	// checkErase(vct, vct.erase(vct.begin(), vct.end()));
-
+	printSize(vct, true);
 	return (0);
 }

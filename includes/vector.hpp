@@ -82,9 +82,7 @@ namespace ft
 				_begin = _allocator.allocate(n);
 				_end = _begin + n;
 				for(size_type i = 0; i < n; i++)
-				{
 					_allocator.construct(_begin + i, val);
-				}
 			}
 
 			//Range Constructor
@@ -99,9 +97,7 @@ namespace ft
 				_begin = _allocator.allocate(_size);
 				_end = _begin + _size;
 				for (difference_type i = 0; i < nb; first++, i++)
-				{
 					_allocator.construct(_begin + i, *first);
-				}
 			}
 
 			//Copy Constructor
@@ -410,6 +406,7 @@ namespace ft
 						_allocator.construct(it, val);					
 				}
 				_size = n;
+				_end = end();
 			}
 
 			void swap(vector& other)
@@ -461,9 +458,8 @@ namespace ft
 	template <class T, class Alloc>
   	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
-		return ((lhs.size() < rhs.size()
-			&& std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()))
-			? true:false);
+		return (std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()))
+			? true:false;
 	}
 	
 	template <class T, class Alloc>
