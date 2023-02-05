@@ -417,8 +417,8 @@ namespace ft
 				allocator_type	tmp_alloc;
 
 				tmp_ptr = this->_begin;
-				this->_begin = other.begin;
-				other.begin = tmp_ptr;
+				this->_begin = other._begin;
+				other._begin = tmp_ptr;
 
 				tmp_ptr = this->_end;
 				this->_end = other._end;
@@ -448,7 +448,7 @@ namespace ft
   	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
 		return ((lhs.size() == rhs.size() 
-			&& ft::equal(lhs.begin(),lhs.end(), rhs.begin(), rhs.end())) 
+			&& ft::equal(lhs.begin(),lhs.end(), rhs.begin())) 
 			? true:false);
 	}
 
