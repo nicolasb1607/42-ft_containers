@@ -40,6 +40,7 @@
 		"typeinfo": "cpp",
 		"utility": "cpp",
 		"cstring": "cpp",
-		"list": "cpp"
+		"list": "cpp",
+		"sstream": "cpp"
 	}
 }
