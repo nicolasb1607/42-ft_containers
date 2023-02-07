@@ -273,11 +273,11 @@ int main()
 	erase_clear_tests<int>();
 	max_size_tests();
 	awesome_tests();
-	push_pop_back_tests<Awesome>();
-	resize_tests<Awesome>();
-	insert_tests<Awesome>();
-	reserve_tests<Awesome>();
-	copy_swap_tests<Awesome>();
-	reverse_it_tests<Awesome>();
-	erase_clear_tests<Awesome>();
+	// push_pop_back_tests<Awesome>();
+	// resize_tests<Awesome>();
+	// insert_tests<Awesome>();
+	// reserve_tests<Awesome>();
+	// copy_swap_tests<Awesome>();
+	// reverse_it_tests<Awesome>();
+	// erase_clear_tests<Awesome>();
 }

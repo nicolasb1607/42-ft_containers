@@ -103,9 +103,9 @@ namespace ft
 		// Copy Constructor
 		vector(const vector &src)
 			: _allocator(src._allocator), _begin(NULL), _end(NULL), _size(src._size),
-			  _capacity(src._capacity)
+			  _capacity(src._size)
 		{
-			_begin = _allocator.allocate(_capacity);
+			_begin = _allocator.allocate(_size);
 			_end = _begin + _size;
 			for (size_type i = 0; i < _size; i++)
 			{
@@ -151,17 +151,15 @@ namespace ft
 			{
 				while (range_size > _capacity)
 					reserve(_capacity * 2);
-				pointer new_begin = _allocator.allocate(_capacity);
+				destroy_previous_content();
 				for (size_type i = 0; i < range_size; i++)
-					_allocator.construct(new_begin + i, *(first + i));
-				delete_previous_instance();
-				_begin = new_begin;
+					_allocator.construct(_begin + i, *(first + i));
 			}
 			else
 			{
 				destroy_previous_content();
 				for (size_type i = 0; i < range_size ; i++)
-					_allocator.construct(_begin, *(first + i));
+					_allocator.construct(_begin + i, *(first + i));
 			}
 			_size = range_size;
 			_end = end();
@@ -287,8 +285,13 @@ namespace ft
 				_capacity = 1;
 			for (iterator it = begin(); it != position; it++)
 				i++;
-			if (_size + 1 > _capacity)
-				reserve(_capacity * 2);
+			if (_size + 1 >= _capacity)
+				{
+					if (_size + 1 > 2 * _capacity)
+						reserve(_size + 1);
+					else
+						reserve(2 * _size);
+				}
 			for (size_type pos = _size; pos > i; pos--)
 			{
 				_allocator.construct(_begin + pos, *(_begin + pos - 1));
@@ -310,8 +313,13 @@ namespace ft
 				return;
 			while (it++ != position)
 				i++;
-			while (_size + n > _capacity)
-				reserve(_capacity * 2);
+			if (_size + n >= _capacity)
+				{
+					if (_size + n > 2 * _capacity)
+						reserve(_size + n);
+					else
+						reserve(2 * _size);
+				}
 			for (size_type pos = _size; pos > i; pos--)
 			{
 				_allocator.construct(_begin + (pos + n - 1), *(_begin + pos - 1));
@@ -412,10 +420,10 @@ namespace ft
 			{
 				if (_capacity == 0)
 					_capacity = 1;
-				while (n > _capacity)
-				{
-					reserve(_capacity * 2);
-				}
+				if (n > 2 * _size)
+					reserve(n);
+				else
+					reserve(2 * _size);
 				for (iterator it = end(); it != end() + (n - _size); it++)
 				{
 					_allocator.construct(it, val);
