@@ -153,13 +153,13 @@ namespace ft
 					reserve(_capacity * 2);
 				destroy_previous_content();
 				for (size_type i = 0; i < range_size; i++)
-					_allocator.construct(_begin + i, *(first + i));
+					_allocator.construct(_begin + i, *(first++));
 			}
 			else
 			{
 				destroy_previous_content();
 				for (size_type i = 0; i < range_size ; i++)
-					_allocator.construct(_begin + i, *(first + i));
+					_allocator.construct(_begin + i, *(first++));
 			}
 			_size = range_size;
 			_end = end();
