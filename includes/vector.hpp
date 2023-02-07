@@ -105,10 +105,12 @@ namespace ft
 			: _allocator(src._allocator), _begin(NULL), _end(NULL), _size(src._size),
 			  _capacity(src._size)
 		{
+			std::cout << "copy construt" << std::endl;
 			_begin = _allocator.allocate(_size);
 			_end = _begin + _size;
 			for (size_type i = 0; i < _size; i++)
 			{
+				std::cout << "into loop" << std::endl;
 				_allocator.construct(_begin + i, *(src._begin + i));
 			}
 		}
