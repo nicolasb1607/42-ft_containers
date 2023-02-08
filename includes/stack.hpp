@@ -83,7 +83,6 @@ namespace ft
 
 		void push(const value_type& val)
 		{
-			std::cout << "tamere" << std::endl;
 			c.push_back(val);
 		}
 
