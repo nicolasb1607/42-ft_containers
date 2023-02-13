@@ -98,10 +98,7 @@ namespace ft
 
 		protected :
 			allocator_type	_allocator;
-			size_type		_size;
-			pointer			_begin;
-			pointer			_end;
-
+		
 
 
 		public :
