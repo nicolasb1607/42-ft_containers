@@ -10,6 +10,15 @@
 
 /*
 TODO:
+
+	*RBT_iterator
+
+	*Modify NODE structure to fit with construction of value_type
+
+	*Set template for RBT
+
+	*Add a RBT 
+
 	- constructor
 	- destructor
 	- operator=
@@ -34,8 +43,8 @@ TODO:
 	- key_comp
 	- value_comp
 
+	- RELATIVE OPERATOR
 
-	RELATIVE OPERATOR
 
 */
 
@@ -49,8 +58,26 @@ namespace ft
 			class Alloc = std::allocator< ft::pair<const Key, T> >	//map::allocator_type
 	>	class map
 	{
-		template <class Key, class T, class Compare, class Alloc>
-		class map<Key, T, Compare, Alloc>::value_compare : public std::binary_function<value_type, value_type, bool>
+
+		public :
+			typedef Key															key_type;
+			typedef T															mapped_type;
+			typedef ft::pair<const Key, T>										value_type;
+			typedef Compare														key_compare;
+			typedef typename ft::map<Key, T, Compare, Alloc>::value_compare		value_compare;
+			typedef Alloc														allocator_type;
+			typedef value_type&													reference;
+			typedef const reference												const_reference;
+			typedef value_type*													pointer;
+			typedef const pointer												const_pointer; 
+			typedef ft::iterator<bidrectional_iterator_tag, value_type>			iterator;
+			typedef ft::iterator<bidrectional_iterator_tag, const value_type>	const_iterator;
+			typedef ft::reverse_iterator<iterator>								reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>						const_reverse_iterator;
+			typedef typename iterator_traits<iterator>::difference_type			difference_type;
+			typedef std::size_t													size_type;
+
+		class value_compare : public std::binary_function<value_type, value_type, bool>
 		{  
 			friend class	map;
 			
@@ -67,28 +94,13 @@ namespace ft
 				{
 					return comp(x.first, y.first);
 				}
-		}
-
-		public :
-			typedef Key															key_type;
-			typedef T															mapped_type;
-			typedef ft::pair<const Key, T>										value_type;
-			typedef Compare														key_compare;
-			typedef typename ft::map<Key, T, Compare, Alloc>::value_compare		value_compare;
-			typedef Alloc														allocator_type;
-			typedef value_type&													reference;
-			typedef const reference												const_reference;
-			typedef value_type*													pointer;
-			typedef const pointer												const_pointer; 
-			typedef ft::iterator<bidrectional_iterator_tag, value_type>			iterator;
-			typedef ft::iterator<bidrectional_iterator_tag, const value_type>	const_iterator;
-			typedef ft::reverse_iterator<iterator>								reverse_iterator;
-			typedef reverse_iterator<const_iterator>							const_reverse_iterator;
-			typedef typename iterator_traits<iterator>::difference_type			difference_type;
-			typedef std::size_t													size_type;
+		};
 
 		protected :
 			allocator_type	_allocator;
+			size_type		_size;
+			pointer			_begin;
+			pointer			_end;
 
 
 
@@ -98,7 +110,6 @@ namespace ft
 		|								CONSTRUCTOR	/ DESTRUCTOR							|
 		|																					|
 		-----------------------------------------------------------------------------------*/
-
 
 			// Default Constructor
 			explicit map(const key_compare& comp = key_compare(),
