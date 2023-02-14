@@ -2,18 +2,35 @@
 #ifndef NODE_HPP
 #define NODE_HPP
 
-template <typename value_type>
+# include <cstddef>
+
+#define BLACK 0
+#define RED 1
+
+template <typename T>
 struct Node
 {
+	typedef Node<T>*	NodePtr;
 
-	typedef typename value_type::first	
 
-	key_type	key;
-	value_type	value;
-	Node 		*parent;
-	Node 		*left;
-	Node 		*right;
-	int			color;
+	T		data;
+	Node 	*parent;
+	Node 	*left;
+	Node 	*right;
+	size_t	color;
+
+
+	Node ()
+	: data(), parent(nullptr), left(nullptr), right(nullptr), color(BLACK)
+	{}
+
+	Node ( const T& data )
+	: data(data), parent(nullptr), left(nullptr), right(nullptr), color(RED)
+	{}
+
+	Node ( const T& data, NodePtr left, NodePtr right)
+	: data(data), parent(nullptr), left(left), right(right), color(RED)
+
 };
 
 

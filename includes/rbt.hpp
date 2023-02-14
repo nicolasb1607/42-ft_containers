@@ -3,18 +3,31 @@
 
 
 # include <iostream>
+# include <functional>
 
+
+# include <reverse_iterator.hpp>
 # include "node.hpp"
+# include "pair.hpp"
 
-using namespace std;
 
-typedef Node<value_type> *NodePtr;
-
-class RedBlackTree
+template <
+		class T,
+		class Compare = std::less<T>,
+		class Alloc = std::allocator<T>
+>	class RedBlackTree
 {
-	private:
+	public:
+		typedef T			value_type;
+		typedef Compare		key_compare;
+		typedef Alloc		allocator_type;
+		typedef Node<T>*	NodePtr;
+
+
+	protected:
 		NodePtr root;
 		NodePtr TNULL;
+
 
 	void initializeNULLNode(NodePtr node, NodePtr parent)
 	{
@@ -30,7 +43,7 @@ class RedBlackTree
 	{
 		if (node != TNULL)
 		{
-			cout << node->data << " ";
+			std::cout << node->data << " ";
 			preOrderHelper(node->left);
 			preOrderHelper(node->right);
 		}
@@ -42,7 +55,7 @@ class RedBlackTree
 		if (node != TNULL)
 		{
 			inOrderHelper(node->left);
-			cout << node->data << " ";
+			std::cout << node->data << " ";
 			inOrderHelper(node->right);
 		}
 	}
@@ -54,7 +67,7 @@ class RedBlackTree
 		{
 			postOrderHelper(node->left);
 			postOrderHelper(node->right);
-			cout << node->data << " ";
+			std::cout << node->data << " ";
 		}
 	}
 
@@ -167,7 +180,7 @@ class RedBlackTree
 		}
 		if (z == TNULL)
 		{
-			cout << "Key not found in the tree" << endl;
+			std::cout << "Key not found in the tree" << endl;
 			return;
 		}
 		y = z;
@@ -266,33 +279,52 @@ class RedBlackTree
 	{
 		if (root != TNULL)
 		{
-			cout << indent;
+			std::cout << indent;
 			if (last)
 			{
-				cout << "R----";
+				std::cout << "R----";
 				indent += "   ";
 			}
 			else
 			{
-				cout << "L----";
+				std::cout << "L----";
 				indent += "|  ";
 			}
 			string sColor = root->color ? "RED" : "BLACK";
-			cout << root->data << "(" << sColor << ")" << endl;
+			std::cout << root->data << "(" << sColor << ")" << endl;
 			printHelper(root->left, indent, false);
 			printHelper(root->right, indent, true);
 		}
 	}
 
-	public:
-		RedBlackTree()
+	public :
+	/*-----------------------------------------------------------------------------------
+	|																					|
+	|								CONSTRUCTOR	/ DESTRUCTOR							|
+	|																					|
+	-----------------------------------------------------------------------------------*/
+
+	RedBlackTree()
 		{
-			TNULL = new Node;
+			TNULL = new Node<T>;
 			TNULL->color = 0;
 			TNULL->left = nullptr;
 			TNULL->right = nullptr;
 			root = TNULL;
 		}
+
+	~RedBlackTree()
+	{
+
+	}
+
+	/*-----------------------------------------------------------------------------------
+	|																					|
+	|									MEMBER FUNCTION									|
+	|																					|
+	-----------------------------------------------------------------------------------*/
+
+		
 
 		void preorder()
 		{
@@ -309,10 +341,15 @@ class RedBlackTree
 			postOrderHelper(this->root);
 		}
 
+		/*-----------------------------------------------------------------------------------
+		|									ELEMENT ACCESS									|
+		-----------------------------------------------------------------------------------*/
+		
 		NodePtr searchTree(int k)
 		{
 			return searchTreeHelper(this->root, k);
 		}
+
 
 		NodePtr minimum(NodePtr node)
 		{
@@ -391,7 +428,7 @@ class RedBlackTree
 		// Inserting a node
 		void insert(int key)
 		{
-			NodePtr node = new Node;
+			NodePtr node = new Node<T>;
 			node->parent = nullptr;
 			node->data = key;
 			node->left = TNULL;
