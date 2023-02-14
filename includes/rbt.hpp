@@ -37,7 +37,7 @@ namespace ft
 				node->parent = parent;
 				node->left = _nullptr;
 				node->right = _nullptr;
-				node->color = 0;
+				node->color = BLACK;
 			}
 
 			// Preorder
@@ -86,35 +86,35 @@ namespace ft
 			void deleteFix(NodePtr x)
 			{
 				NodePtr s;
-				while (x != root && x->color == 0)
+				while (x != root && x->color == BLACK)
 				{
 					if (x == x->parent->left)
 					{
 						s = x->parent->right;
-						if (s->color == 1)
+						if (s->color == RED)
 						{
-							s->color = 0;
-							x->parent->color = 1;
+							s->color = BLACK;
+							x->parent->color = RED;
 							leftRotate(x->parent);
 							s = x->parent->right;
 						}
-						if (s->left->color == 0 && s->right->color == 0)
+						if (s->left->color == BLACK && s->right->color == BLACK)
 						{
-							s->color = 1;
+							s->color = RED;
 							x = x->parent;
 						}
 						else
 						{
-							if (s->right->color == 0)
+							if (s->right->color == BLACK)
 							{
-								s->left->color = 0;
-								s->color = 1;
+								s->left->color = BLACK;
+								s->color = RED;
 								rightRotate(s);
 								s = x->parent->right;
 							}
 							s->color = x->parent->color;
-							x->parent->color = 0;
-							s->right->color = 0;
+							x->parent->color = BLACK;
+							s->right->color = BLACK;
 							leftRotate(x->parent);
 							x = root;
 						}
@@ -122,38 +122,38 @@ namespace ft
 					else
 					{
 						s = x->parent->left;
-						if (s->color == 1)
+						if (s->color == RED)
 						{
-							s->color = 0;
-							x->parent->color = 1;
+							s->color = BLACK;
+							x->parent->color = RED;
 							rightRotate(x->parent);
 							s = x->parent->left;
 						}
 
-						if (s->right->color == 0 && s->right->color == 0)
+						if (s->right->color == BLACK && s->right->color == BLACK)
 						{
-							s->color = 1;
+							s->color = RED;
 							x = x->parent;
 						}
 						else
 						{
-							if (s->left->color == 0)
+							if (s->left->color == BLACK)
 							{
-								s->right->color = 0;
+								s->right->color = BLACK;
 								s->color = 1;
 								leftRotate(s);
 								s = x->parent->left;
 							}
 
 							s->color = x->parent->color;
-							x->parent->color = 0;
-							s->left->color = 0;
+							x->parent->color = BLACK;
+							s->left->color = BLACK;
 							rightRotate(x->parent);
 							x = root;
 						}
 					}
 				}
-				x->color = 0;
+				x->color = BLACK;
 			}
 
 			void rbTransplant(NodePtr u, NodePtr v)
@@ -216,7 +216,7 @@ namespace ft
 					y->color = z->color;
 				}
 				delete z;
-				if (y_original_color == 0)
+				if (y_original_color == BLACK)
 					deleteFix(x);
 			}
 
@@ -224,16 +224,16 @@ namespace ft
 			void insertFix(NodePtr k)
 			{
 				NodePtr u;
-				while (k->parent->color == 1)
+				while (k->parent->color == RED)
 				{
 					if (k->parent == k->parent->parent->right)
 					{
 						u = k->parent->parent->left;
-						if (u->color == 1)
+						if (u->color == RED)
 						{
-							u->color = 0;
-							k->parent->color = 0;
-							k->parent->parent->color = 1;
+							u->color = BLACK;
+							k->parent->color = BLACK;
+							k->parent->parent->color = RED;
 							k = k->parent->parent;
 						}
 						else
@@ -243,8 +243,8 @@ namespace ft
 								k = k->parent;
 								rightRotate(k);
 							}
-							k->parent->color = 0;
-							k->parent->parent->color = 1;
+							k->parent->color = BLACK;
+							k->parent->parent->color = RED;
 							leftRotate(k->parent->parent);
 						}
 					}
@@ -252,11 +252,11 @@ namespace ft
 					{
 						u = k->parent->parent->right;
 
-						if (u->color == 1)
+						if (u->color == RED)
 						{
-							u->color = 0;
-							k->parent->color = 0;
-							k->parent->parent->color = 1;
+							u->color = BLACK;
+							k->parent->color = BLACK;
+							k->parent->parent->color = RED;
 							k = k->parent->parent;
 						}
 						else
@@ -266,15 +266,15 @@ namespace ft
 								k = k->parent;
 								leftRotate(k);
 							}
-							k->parent->color = 0;
-							k->parent->parent->color = 1;
+							k->parent->color = BLACK;
+							k->parent->parent->color = RED;
 							rightRotate(k->parent->parent);
 						}
 					}
 					if (k == root)
 						break;
 				}
-				root->color = 0;
+				root->color = BLACK;
 			}
 
 			void printHelper(NodePtr root, std::string indent, bool last)
@@ -307,16 +307,15 @@ namespace ft
 		-----------------------------------------------------------------------------------*/
 
 			RedBlackTree()
-				{
-					TNULL = new Node<T>();
-					TNULL->color = BLACK;
-					TNULL->left = _nullptr;
-					TNULL->right = _nullptr;
-					root = TNULL;
-				}
+			{
+				TNULL = new Node<T>();
+				TNULL->color = BLACK;
+				TNULL->left = _nullptr;
+				TNULL->right = _nullptr;
+				root = TNULL;
+			}
 
-
-			RedBlackTree()
+	
 			~RedBlackTree()
 		{
 
