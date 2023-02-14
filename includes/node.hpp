@@ -2,10 +2,12 @@
 #ifndef NODE_HPP
 #define NODE_HPP
 
-# include <cstddef>
+# include "nullptr.hpp"
 
 #define BLACK 0
 #define RED 1
+
+using namespace ft;
 
 template <typename T>
 struct Node
@@ -21,16 +23,16 @@ struct Node
 
 
 	Node ()
-	: data(), parent(nullptr), left(nullptr), right(nullptr), color(BLACK)
+	: data(), parent(_nullptr), left(_nullptr), right(_nullptr), color(BLACK)
 	{}
 
 	Node ( const T& data )
-	: data(data), parent(nullptr), left(nullptr), right(nullptr), color(RED)
+	: data(data), parent(_nullptr), left(_nullptr), right(_nullptr), color(RED)
 	{}
 
 	Node ( const T& data, NodePtr left, NodePtr right)
-	: data(data), parent(nullptr), left(left), right(right), color(RED)
-
+	: data(data), parent(_nullptr), left(left), right(right), color(RED)
+	{}
 };
 
 

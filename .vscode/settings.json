@@ -42,5 +42,6 @@
 		"cstring": "cpp",
 		"list": "cpp",
 		"sstream": "cpp"
-	}
+	},
+	"C_Cpp.errorSquiggles": "disabled"
 }
