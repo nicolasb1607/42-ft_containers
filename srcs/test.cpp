@@ -6,10 +6,14 @@
 
 int main()
 {
-	ft::RedBlackTree<std::pair<int, std::string> > bst();
+	ft::RedBlackTree<ft::pair<int, std::string> > bst;
 
-	std::pair<int, std::string> pair1 = std::make_pair<int, std::string>(1, "hello");
+	ft::pair<int, std::string> pair1 = ft::make_pair<int, std::string>(5, "brree");
+	ft::pair<int, std::string> pair2 = ft::make_pair<int, std::string>(1, "hello");
 
+	bst.insert(pair2);
 	bst.insert(pair1);
+
+	bst.printTree();
 	return (0);
 }
