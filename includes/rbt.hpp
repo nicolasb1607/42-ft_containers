@@ -1,16 +1,13 @@
 #ifndef RBT_HPP
 #define RBT_HPP
 
-
 # include <iostream>
 # include <functional>
 
-
-# include <reverse_iterator.hpp>
+# include "reverse_iterator.hpp"
 # include "node.hpp"
 # include "pair.hpp"
 
-using namespace ft;
 
 namespace ft
 {
@@ -18,7 +15,7 @@ namespace ft
 	template <
 			class T,
 			class Compare = std::less<T>,
-			class Alloc = std::allocator<T>
+			class Alloc = std::allocator< Node<T> >
 	>	class RedBlackTree
 	{
 		public:
@@ -26,10 +23,15 @@ namespace ft
 			typedef Compare		key_compare;
 			typedef Alloc		allocator_type;
 			typedef Node<T>*	NodePtr;
+			typedef std::size_t	size_type;
+
 
 		protected:
-			NodePtr root;
-			NodePtr TNULL;
+			NodePtr 		root;
+			NodePtr 		TNULL;
+			allocator_type	_allocator;
+			key_compare		_comp;
+			
 
 			void initializeNULLNode(NodePtr node, NodePtr parent)
 			{
@@ -307,19 +309,18 @@ namespace ft
 		-----------------------------------------------------------------------------------*/
 
 			RedBlackTree()
+			: root(_nullptr), TNULL(_nullptr), _allocator(allocator_type()), _comp(key_compare())
 			{
-				TNULL = new Node<T>();
+				//Construction default Node
+				TNULL = _allocator.allocate(1);
+				_allocator.construct(TNULL, Node<T>(value_type()));
+
 				TNULL->color = BLACK;
-				TNULL->left = _nullptr;
-				TNULL->right = _nullptr;
 				root = TNULL;
 			}
-
-	
+				
 			~RedBlackTree()
-		{
-
-		}
+			{}
 
 		/*-----------------------------------------------------------------------------------
 		|																					|
@@ -426,14 +427,10 @@ namespace ft
 			}
 
 			// Inserting a node
-			void insert(T& value_type)
+			void insert(T& content)
 			{
-				NodePtr node = new Node<T>;
-				node->parent = _nullptr;
-				node->data = value_type;
-				node->left = TNULL;
-				node->right = TNULL;
-				node->color = RED;
+				NodePtr node = _allocator.allocate(1);
+				_allocator.construct(node, Node<T>(content, TNULL, TNULL));
 
 				NodePtr y = _nullptr;
 				NodePtr x = this->root;
