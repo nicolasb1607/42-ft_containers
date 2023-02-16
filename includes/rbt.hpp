@@ -14,12 +14,14 @@ namespace ft
 {
 
 	template <
+			class Key,
 			class T,
 			class Compare = std::less<T>,
 			class Alloc = std::allocator< Node<T> >
 	>	class RedBlackTree
 	{
 		public:
+			typedef Key			key_type;
 			typedef T			value_type;
 			typedef Compare		key_compare;
 			typedef Alloc		allocator_type;
@@ -34,56 +36,49 @@ namespace ft
 			key_compare		_comp;
 			
 
-			void initializeNULLNode(NodePtr node, NodePtr parent)
-			{
-				node->data = 0;
-				node->parent = parent;
-				node->left = _nullptr;
-				node->right = _nullptr;
-				node->color = BLACK;
-			}
+			// void initializeNULLNode(NodePtr node, NodePtr parent)
+			// {
+			// 	node->data = 0;
+			// 	node->parent = parent;
+			// 	node->left = _nullptr;
+			// 	node->right = _nullptr;
+			// 	node->color = BLACK;
+			// }
 
-			// Preorder
-			void preOrderHelper(NodePtr node)
-			{
-				if (node != TNULL)
-				{
-					std::cout << node->data << " ";
-					preOrderHelper(node->left);
-					preOrderHelper(node->right);
-				}
-			}
+			// // Preorder
+			// void preOrderHelper(NodePtr node)
+			// {
+			// 	if (node != TNULL)
+			// 	{
+			// 		std::cout << node->data << " ";
+			// 		preOrderHelper(node->left);
+			// 		preOrderHelper(node->right);
+			// 	}
+			// }
 
-			// Inorder
-			void inOrderHelper(NodePtr node)
-			{
-				if (node != TNULL)
-				{
-					inOrderHelper(node->left);
-					std::cout << node->data << " ";
-					inOrderHelper(node->right);
-				}
-			}
+			// // Inorder
+			// void inOrderHelper(NodePtr node)
+			// {
+			// 	if (node != TNULL)
+			// 	{
+			// 		inOrderHelper(node->left);
+			// 		std::cout << node->data << " ";
+			// 		inOrderHelper(node->right);
+			// 	}
+			// }
 
-			// Post order
-			void postOrderHelper(NodePtr node)
-			{
-				if (node != TNULL)
-				{
-					postOrderHelper(node->left);
-					postOrderHelper(node->right);
-					std::cout << node->data << " ";
-				}
-			}
+			// // Post order
+			// void postOrderHelper(NodePtr node)
+			// {
+			// 	if (node != TNULL)
+			// 	{
+			// 		postOrderHelper(node->left);
+			// 		postOrderHelper(node->right);
+			// 		std::cout << node->data << " ";
+			// 	}
+			// }
 
-			NodePtr searchTreeHelper(NodePtr node, int key)
-			{
-				if (node == TNULL || key == node->data)
-					return node;
-				if (key < node->data)
-					return searchTreeHelper(node->left, key);
-				return searchTreeHelper(node->right, key);
-			}
+			
 
 			// For balancing the tree after deletion
 			void deleteFix(NodePtr x)
@@ -329,29 +324,25 @@ namespace ft
 		|																					|
 		-----------------------------------------------------------------------------------*/
 
-			void preorder()
-			{
-				preOrderHelper(this->root);
-			}
 
-			void inorder()
+		/*-----------------------------------------------------------------------------------
+		|									ELEMENT ACCESS									|
+		-----------------------------------------------------------------------------------*/
+			NodePtr find_key(const key_type& key)
 			{
-				inOrderHelper(this->root);
-			}
+				NodePtr tmp = root;
 
-			void postorder()
-			{
-				postOrderHelper(this->root);
+				if(tmp == _nullptr)
+					return NULL;
+				while (tmp && tmp->data.first != key)
+				{
+					tmp = _comp(key, tmp->data) ? tmp->left : tmp->right;
+					if(tmp == TNULL)
+						return NULL;
+				}
+				return tmp;
 			}
-
-			/*-----------------------------------------------------------------------------------
-			|									ELEMENT ACCESS									|
-			-----------------------------------------------------------------------------------*/
-			
-			NodePtr searchTree(int k)
-			{
-				return searchTreeHelper(this->root, k);
-			}
+	
 
 			NodePtr minimum(NodePtr node)
 			{
@@ -428,7 +419,7 @@ namespace ft
 			}
 
 			// Inserting a node
-			void insert(T& content)
+			std::pair<NodePtr, bool> insert(T& content)
 			{
 				NodePtr node = _allocator.allocate(1);
 				_allocator.construct(node, Node<T>(content, TNULL, TNULL));
@@ -439,25 +430,25 @@ namespace ft
 				while (x != TNULL)
 				{
 					y = x;
-					if (node->data < x->data)
+					if (_comp(node->data, x->data))
 						x = x->left;
-					else
+					else if (!_comp(node->data, x->data))
 						x = x->right;
 				}
 				node->parent = y;
 				if (y == _nullptr)
 					root = node;
-				else if (node->data < y->data)
+				else if (_comp(node->data, y->data))
 					y->left = node;
 				else
 					y->right = node;
 				if (node->parent == _nullptr)
 				{
 					node->color = 0;
-					return;
+					return ft::make_pair(node, true);
 				}
 				if (node->parent->parent == _nullptr)
-					return;
+					return ft::make_pair(node, true);
 				insertFix(node);
 			}
 

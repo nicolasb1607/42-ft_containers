@@ -14,7 +14,6 @@ struct Node
 {
 	typedef Node<T>*	NodePtr;
 
-
 	T		data;
 	Node 	*parent;
 	Node 	*left;

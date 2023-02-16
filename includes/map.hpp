@@ -5,6 +5,7 @@
 # include <functional>
 
 # include "rbt.hpp"
+# include "utils.hpp"
 
 /*
 TODO:
@@ -52,6 +53,12 @@ namespace ft
 			class Alloc = std::allocator< ft::pair<const Key, T> >	//map::allocator_type
 	>	class map
 	{
+		public :
+			typedef Key																		key_type;
+			typedef T																		mapped_type;
+			typedef ft::pair<const Key, T>													value_type;
+			typedef Compare																	key_compare;
+			typedef Alloc																	allocator_type;
 
 		class value_compare : public std::binary_function<value_type, value_type, bool>
 		{  
@@ -66,28 +73,28 @@ namespace ft
 				typedef value_type		first_argument_type;
 				typedef value_type		second_argument_type;
 
+				template <typename T1, typename T2>
+				bool operator() (const T1& key_value, ENABLE_IF_PAIR(T2) value)
+				{ return comp(key_value, value.first); }
+
 				bool operator() (const value_type& x, const value_type& y) const
 				{ return comp(x.first, y.first); }
 		};
 
 		public :
-			typedef Key															key_type;
-			typedef T															mapped_type;
-			typedef ft::pair<const Key, T>										value_type;
-			typedef Compare														key_compare;
-			typedef typename ft::map<Key, T, Compare, Alloc>::value_compare		value_compare;
-			typedef Alloc														allocator_type;
-			typedef ft::RedBlackTree<value_type, value_compare, allocator_type>	red_black_tree;
-			typedef value_type&													reference;
-			typedef const reference												const_reference;
-			typedef value_type*													pointer;
-			typedef const pointer												const_pointer; 
-			typedef ft::iterator<bidrectional_iterator_tag, value_type>			iterator;
-			typedef ft::iterator<bidrectional_iterator_tag, const value_type>	const_iterator;
-			typedef ft::reverse_iterator<iterator>								reverse_iterator;
-			typedef ft::reverse_iterator<const_iterator>						const_reverse_iterator;
-			typedef typename iterator_traits<iterator>::difference_type			difference_type;
-			typedef std::size_t													size_type;
+			
+			typedef typename ft::map<Key, T, Compare, Alloc>::value_compare					value_compare;
+			typedef ft::RedBlackTree<key_type, value_type, value_compare, allocator_type>	red_black_tree;
+			typedef value_type&																reference;
+			typedef const reference															const_reference;
+			typedef value_type*																pointer;
+			typedef const pointer															const_pointer; 
+			typedef ft::iterator<bidrectional_iterator_tag, value_type>						iterator;
+			typedef ft::iterator<bidrectional_iterator_tag, const value_type>				const_iterator;
+			typedef ft::reverse_iterator<iterator>											reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>									const_reverse_iterator;
+			typedef typename iterator_traits<iterator>::difference_type						difference_type;
+			typedef std::size_t																size_type;
 
 		protected :
 			value_compare	_comp;
@@ -105,14 +112,14 @@ namespace ft
 			// Default Constructor
 			explicit map(const key_compare& comp = key_compare(),
 						const allocator_type& alloc = allocator_type())
-			: _comp(comp), _allocator(alloc), _size(0)
+			: _comp(comp), _allocator(alloc), _size(0), _rbt()
 			{
-				_rbt = RedBlackTree();
+	
 			}
 
 			// Range Constructor
 			template <class InputIterator>
-			map(InputIterator first, InputIterator last, const keyp_compare& comp = key_compare(),
+			map(InputIterator first, InputIterator last, const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type())
 			: _comp(comp), _allocator(alloc), _size(0)
 			{
@@ -192,6 +199,27 @@ namespace ft
 		/*-----------------------------------------------------------------------------------
 		|									MODIFIERS										|
 		-----------------------------------------------------------------------------------*/
+
+		// void clear()
+		// {
+			
+
+		// 	_size = 0;
+		// }
+
+		std::pair<iterator, bool> insert( const value_type& value )
+		{
+			std::pair<iterator, bool> ret = _rbt.insert(value).second;
+			if(!ret.second)
+				return ret;
+			else
+			{
+				_size++;
+				return ret;
+			}
+			
+		}
+
 
 		/*-----------------------------------------------------------------------------------
 		|									LOOKUP											|
