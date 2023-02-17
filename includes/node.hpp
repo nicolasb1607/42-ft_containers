@@ -9,12 +9,13 @@
 
 using namespace ft;
 
-template <typename T>
+template < typename Key, typename T>
 struct Node
 {
 	typedef Node<T>*	NodePtr;
-
-	T		data;
+	
+	first_type 	first;
+	second_type second;
 	Node 	*parent;
 	Node 	*left;
 	Node 	*right;

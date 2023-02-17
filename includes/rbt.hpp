@@ -21,12 +21,13 @@ namespace ft
 	>	class RedBlackTree
 	{
 		public:
-			typedef Key			key_type;
-			typedef T			value_type;
-			typedef Compare		key_compare;
-			typedef Alloc		allocator_type;
-			typedef Node<T>*	NodePtr;
-			typedef std::size_t	size_type;
+			typedef Key					key_type;
+			typedef T					mapped_type;
+			typedef ft::pair<Key, T>	value_type;
+			typedef Compare				key_compare;
+			typedef Alloc				allocator_type;
+			typedef Node<T>*			NodePtr;
+			typedef std::size_t			size_type;
 
 
 		protected:
@@ -419,10 +420,10 @@ namespace ft
 			}
 
 			// Inserting a node
-			std::pair<NodePtr, bool> insert(T& content)
+			std::pair<NodePtr, bool> insert(value_type& content)
 			{
 				NodePtr node = _allocator.allocate(1);
-				_allocator.construct(node, Node<T>(content, TNULL, TNULL));
+				_allocator.construct(node, Node<value_type>(content, TNULL, TNULL));
 
 				NodePtr y = _nullptr;
 				NodePtr x = this->root;
