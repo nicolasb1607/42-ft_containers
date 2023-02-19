@@ -14,7 +14,7 @@ namespace	ft {
 	/* The iterator class template is a convenient base-class template to 
 	use when implementing your own iterator. */
 
-	template<typename Category, typename T, typename Difference = ptrdiff_t,
+	template <typename Category, typename T, typename Difference = ptrdiff_t,
 			typename Pointer = T*, typename Reference = T&>
 	struct iterator {
 		typedef T				value_type;

@@ -27,13 +27,19 @@ namespace	ft {
 			// the underlying iterator of which base() returns a copy
 
 		public :
-			typedef Iterator												iterator_type;
+			typedef Iterator													iterator_type;
 			typedef	typename ft::iterator_traits<Iterator>::iterator_category	iterator_category;
-			typedef typename ft::iterator_traits<Iterator>::value_type		value_type;
-			typedef typename ft::iterator_traits<Iterator>::difference_type	difference_type;
-			typedef typename ft::iterator_traits<Iterator>::reference		reference;
-			typedef typename ft::iterator_traits<Iterator>::pointer			pointer;
+			typedef typename ft::iterator_traits<Iterator>::value_type			value_type;
+			typedef typename ft::iterator_traits<Iterator>::difference_type		difference_type;
+			typedef typename ft::iterator_traits<Iterator>::reference			reference;
+			typedef typename ft::iterator_traits<Iterator>::pointer				pointer;
 
+
+		/*-----------------------------------------------------------------------------------
+		|																					|
+		|								CONSTRUCTOR	/ DESTRUCTOR							|
+		|																					|
+		-----------------------------------------------------------------------------------*/
 			//Default constructor
 			reverse_iterator(){}
 
@@ -75,7 +81,11 @@ namespace	ft {
 			
 	};
 
-	//Non-member function
+	/*-----------------------------------------------------------------------------------
+	|																					|
+	|									NON-MEMBER FUNCTION								|
+	|																					|
+	-----------------------------------------------------------------------------------*/
 
 	template<typename Iterator1, typename Iterator2> 
 	inline bool 

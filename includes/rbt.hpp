@@ -22,11 +22,10 @@ namespace ft
 	{
 		public:
 			typedef Key					key_type;
-			typedef T					mapped_type;
-			typedef ft::pair<Key, T>	value_type;
+			typedef T					value_type;
 			typedef Compare				key_compare;
 			typedef Alloc				allocator_type;
-			typedef Node<T>*			NodePtr;
+			typedef Node<T>*	NodePtr;
 			typedef std::size_t			size_type;
 
 
@@ -305,12 +304,12 @@ namespace ft
 		|																					|
 		-----------------------------------------------------------------------------------*/
 
-			RedBlackTree()
-			: root(_nullptr), TNULL(_nullptr), _allocator(allocator_type()), _comp(key_compare())
+			RedBlackTree(const key_compare& comparator = key_compare())
+			: root(_nullptr), TNULL(_nullptr), _allocator(allocator_type()), _comp(comparator)
 			{
 				//Construction default Node
 				TNULL = _allocator.allocate(1);
-				_allocator.construct(TNULL, Node<T>(value_type()));
+				_allocator.construct(TNULL, Node<value_type>(value_type()));
 
 				TNULL->color = BLACK;
 				root = TNULL;
@@ -337,7 +336,7 @@ namespace ft
 					return NULL;
 				while (tmp && tmp->data.first != key)
 				{
-					tmp = _comp(key, tmp->data) ? tmp->left : tmp->right;
+					tmp = _comp(ft::make_pair(key, 1), tmp->data) ? tmp->left : tmp->right;
 					if(tmp == TNULL)
 						return NULL;
 				}
@@ -420,10 +419,10 @@ namespace ft
 			}
 
 			// Inserting a node
-			std::pair<NodePtr, bool> insert(value_type& content)
+			ft::pair<NodePtr, bool> insert(value_type& content)
 			{
 				NodePtr node = _allocator.allocate(1);
-				_allocator.construct(node, Node<value_type>(content, TNULL, TNULL));
+				_allocator.construct(node, Node<T>(content, TNULL, TNULL));
 
 				NodePtr y = _nullptr;
 				NodePtr x = this->root;

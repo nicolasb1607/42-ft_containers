@@ -73,10 +73,6 @@ namespace ft
 				typedef value_type		first_argument_type;
 				typedef value_type		second_argument_type;
 
-				template <typename T1, typename T2>
-				bool operator() (const T1& key_value, ENABLE_IF_PAIR(T2) value)
-				{ return comp(key_value, value.first); }
-
 				bool operator() (const value_type& x, const value_type& y) const
 				{ return comp(x.first, y.first); }
 		};
@@ -112,7 +108,7 @@ namespace ft
 			// Default Constructor
 			explicit map(const key_compare& comp = key_compare(),
 						const allocator_type& alloc = allocator_type())
-			: _comp(comp), _allocator(alloc), _size(0), _rbt()
+			: _comp(comp), _allocator(alloc), _size(0), _rbt(_comp)
 			{
 	
 			}
@@ -191,10 +187,10 @@ namespace ft
 		size_type size() const
 		{ return _size; }
 
-		size_type max_size() const
-		{
+		// size_type max_size() const
+		// {
 
-		}
+		// }
 		
 		/*-----------------------------------------------------------------------------------
 		|									MODIFIERS										|
@@ -232,11 +228,11 @@ namespace ft
 		key_compare key_comp() const
 		{ return key_comp(); }
 
-		std::map::value_compare value_comp() const
+		map::value_compare value_comp() const
 		{ return _comp;	}
 	
 	
-	}
+	};
 		/*-----------------------------------------------------------------------------------
 		|																					|
 		|									NON-MEMBER FUNCTION								|

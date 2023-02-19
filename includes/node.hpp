@@ -9,13 +9,12 @@
 
 using namespace ft;
 
-template < typename Key, typename T>
+template <typename T>
 struct Node
 {
 	typedef Node<T>*	NodePtr;
 	
-	first_type 	first;
-	second_type second;
+	T		data;
 	Node 	*parent;
 	Node 	*left;
 	Node 	*right;
@@ -33,6 +32,8 @@ struct Node
 	Node ( const T& data, NodePtr left, NodePtr right)
 	: data(data), parent(_nullptr), left(left), right(right), color(RED)
 	{}
+
+	
 };
 
 
